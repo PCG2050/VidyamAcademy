@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VidyamAcademy.Views.Startup.SignupPage"
+             xmlns:handlers="clr-namespace:VidyamAcademy.Handlers"
+             BackgroundColor="#1771EB"
+             Title="Register">
+    <VerticalStackLayout Spacing="10" WidthRequest="250" Margin="0,30,0,0">
+
+        <Frame Padding="0" HeightRequest="45" HasShadow="True" BorderColor="White" CornerRadius="15" HorizontalOptions="FillAndExpand" >
+            <handlers:BorderlessEntry x:Name="EmailEntry" Placeholder="Email" Margin="20,0,0,0" VerticalOptions="Center" />
+        </Frame>
+
+        <Frame Padding="0" HeightRequest="45" HasShadow="True" BorderColor="White" CornerRadius="15" HorizontalOptions="FillAndExpand" >
+            <handlers:BorderlessEntry x:Name="PhoneNumber" Placeholder="Phone Number" Margin="20,0,0,0" VerticalOptions="Center" Keyboard="Numeric"/>
+        </Frame>
+
+       
+
+        <Frame Padding="0" HeightRequest="45" HasShadow="True" BorderColor="White" CornerRadius="15" HorizontalOptions="FillAndExpand">
+            <handlers:BorderlessEntry x:Name="UsernameEntry" Placeholder="Username" PlaceholderColor="Gray" Keyboard="Email" Margin="20,0,0,0" VerticalOptions="Center" />
+        </Frame>
+
+        <Frame Padding="0" HeightRequest="45" HasShadow="True" BorderColor="White" CornerRadius="15" HorizontalOptions="FillAndExpand" >
+            <handlers:BorderlessEntry x:Name="PasswordEntry" Placeholder="Password" IsPassword="True" Margin="20,0,0,0" VerticalOptions="Center"/>
+        </Frame>
+
+        <Frame Padding="0" HeightRequest="45" HasShadow="True" BorderColor="White" CornerRadius="15" HorizontalOptions="FillAndExpand" >
+            <handlers:BorderlessEntry x:Name="ConfirmPasswordEntry" Placeholder="Confirm Password" IsPassword="True" Margin="20,0,0,0" VerticalOptions="Center" />
+        </Frame>
+        <StackLayout Margin="0,30,0,0">            
+            <Button Text="Send OTP" x:Name="SendOTPButton" WidthRequest="250" FontAttributes="Bold" Clicked="OnSendOTPClicked"  CornerRadius="20" TextColor="Black" HorizontalOptions="Center"  BackgroundColor="#1771EB" BorderColor="Black" BorderWidth="1"/>
+        </StackLayout>
+        
+
+    </VerticalStackLayout>
+</ContentPage>

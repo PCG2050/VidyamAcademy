@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<StackLayout xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VidyamAcademy.Controls.FlyoutHeaderControl">
+    <HorizontalStackLayout HorizontalOptions="Center">
+        <Frame WidthRequest="200" HeightRequest="200" CornerRadius="100" BackgroundColor="LightGray" HorizontalOptions="Center">
+            <Image x:Name="myImage" Source="profile.png" Aspect="AspectFill" HeightRequest="200" />
+        </Frame>
+        <ImageButton Source="edit.png" HorizontalOptions="End" VerticalOptions="End" HeightRequest="20" WidthRequest="20" Clicked="ImageButton_Clicked"/>
+    </HorizontalStackLayout>
+    <StackLayout Orientation="Vertical" >
+        <Label x:Name="lblUserName" Text="User Name" FontSize="28" FontAttributes="Bold" />
+        <Label  x:Name="lblUserRole" Text="User Role" VerticalTextAlignment="Center" FontAttributes="Bold" FontSize="16" />
+    </StackLayout>
+   
+</StackLayout>

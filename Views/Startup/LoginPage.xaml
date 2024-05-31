@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VidyamAcademy.Views.Startup.LoginPage"
+             Shell.NavBarIsVisible="False"
+             xmlns:handlers="clr-namespace:VidyamAcademy.Handlers"
+             Background="#1771EB"
+             Title="LoginPage">
+    <ContentPage.Content>
+        <VerticalStackLayout Spacing="10">
+
+            <!-- Logo Image -->
+            <Image Source="logo.jpg" Margin="10,10,10,10" VerticalOptions="Center" HorizontalOptions="Center"></Image>
+
+            <StackLayout Orientation="Horizontal" WidthRequest="300">
+                <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="50" WidthRequest="50" CornerRadius="28">
+                    <Image  Source="username.png" HeightRequest="20" WidthRequest="20"/>
+                </Frame>
+                <!-- Email Entry -->
+                <Frame Padding="0" HeightRequest="45" HasShadow="True" BorderColor="White" CornerRadius="15" HorizontalOptions="FillAndExpand">
+                    <handlers:BorderlessEntry Text="{Binding Email}"  Margin="20,0,0,0" Placeholder="Email" PlaceholderColor="Gray" Keyboard="Email" VerticalOptions="Center" />
+                </Frame>
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal" WidthRequest="300">
+                <Frame ZIndex="1" HasShadow="True" BorderColor="White" HeightRequest="50" WidthRequest="50" CornerRadius="28">
+                    <Image Source="password.png" HeightRequest="20" WidthRequest="20"/>
+                </Frame>
+                <!-- Password Entry -->
+                <Frame Padding="0" HeightRequest="45" HasShadow="True" BorderColor="White" CornerRadius="15" HorizontalOptions="FillAndExpand">
+                    <handlers:BorderlessEntry Text="{Binding Password}" Margin="20,0,0,0" Placeholder="Password" PlaceholderColor="Gray" IsPassword="True" VerticalOptions="Center" />
+                </Frame>
+            </StackLayout>
+
+            <!-- Login Button -->
+            <Button Text="LOGIN" FontAttributes="Bold" Margin="0,30,0,10" WidthRequest="300" CornerRadius="20" TextColor="Black" HorizontalOptions="Center" Command="{Binding LoginCommand}" BackgroundColor="#1771EB" BorderColor="Black" BorderWidth="1"/>
+
+            <StackLayout Orientation="Horizontal" Margin="30,0,0,0" Padding="0" >
+                <CheckBox IsChecked="False" HorizontalOptions="Start"/>
+                <Label Text="Remember Me" TextColor="White" VerticalOptions="Center"/>
+                <!-- Forgot Password Label -->
+                <Label Margin="80,0,0,0"  VerticalOptions="Center" HorizontalOptions="End">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span FontAttributes="Bold" Text="Forgot Password"></Span>
+                        </FormattedString>
+                    </Label.FormattedText>
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ForgotPasswordTapped"></TapGestureRecognizer>
+                    </Label.GestureRecognizers>
+                </Label>
+            </StackLayout>
+          
+
+            <!-- Register Label -->
+            <Label HorizontalOptions="Center" VerticalOptions="End">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="Don't have an account? " TextColor="Black"></Span>
+                        <Span Text="Register" TextColor="Black" FontAttributes="Italic" TextDecorations="Underline"></Span>
+                    </FormattedString>
+                </Label.FormattedText>
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="OnSignUpLabelTapped"></TapGestureRecognizer>
+                </Label.GestureRecognizers>
+            </Label>
+
+        </VerticalStackLayout>
+    </ContentPage.Content>
+</ContentPage>

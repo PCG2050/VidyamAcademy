@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="VidyamAcademy.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:VidyamAcademy"
+    xmlns:models="clr-namespace:VidyamAcademy.Models"
+    xmlns:startupPages ="clr-namespace:VidyamAcademy.Views.Startup"
+    xmlns:dashboardPages="clr-namespace:VidyamAcademy.Views.Dashboard"
+    Shell.TabBarIsVisible="False"
+    Title="VidyamAcademy">
+
+    <ShellContent
+     Title="LoginPage" FlyoutItemIsVisible="False" Shell.FlyoutBehavior="Disabled"
+     ContentTemplate="{DataTemplate startupPages:LoadingPage}"
+     Route="LoadingPage" />
+
+    <ShellContent
+        Title="LoginPage" FlyoutItemIsVisible="False" Shell.FlyoutBehavior="Disabled"
+        ContentTemplate="{DataTemplate startupPages:LoginPage}"
+        Route="LoginPage" />
+
+    <FlyoutItem Route="DashboardPage" FlyoutDisplayOptions="AsMultipleItems">
+        <ShellContent
+            Title="Dashboard" Icon="{x:Static models:Icons.Dashboard}"
+            ContentTemplate="{DataTemplate dashboardPages:DashboardPage}"/>
+        <ShellContent
+            Title="Test"  Icon="{x:Static models:Icons.Test}"
+            ContentTemplate="{DataTemplate dashboardPages:TestPage}"/>
+        <ShellContent  Icon="{x:Static models:Icons.Books}"
+            Title="Books"
+            ContentTemplate="{DataTemplate dashboardPages:BooksPage}"/>
+        <ShellContent  Icon="{x:Static models:Icons.AboutUs}"
+            Title="AboutUs"
+            ContentTemplate="{DataTemplate dashboardPages:AboutUsPage}"/>
+        <ShellContent  Icon="{x:Static models:Icons.ContactUs}"
+            Title="ContactUs"
+            ContentTemplate="{DataTemplate dashboardPages:ContactUsPage}"/>
+    </FlyoutItem>
+    <Shell.FlyoutFooter>
+        <StackLayout Padding="20">
+            <Button Text="Sign Out" Command="{Binding SignOutCommand}" />
+        </StackLayout>
+    </Shell.FlyoutFooter>
+
+
+</Shell>
