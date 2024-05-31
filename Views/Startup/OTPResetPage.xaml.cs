@@ -1,72 +1,46 @@
+using System;
+using Microsoft.Maui.Controls;
+
+
 namespace VidyamAcademy.Views.Startup
 {
     public partial class OTPResetPage : ContentPage
     {
         private readonly ApiService _apiService;
         private readonly string _email;
-        private string _pin;
+        private readonly Action<object, string, string> _onOtpVerified;
 
-
-        public OTPResetPage(ApiService apiService, string email)
+        public OTPResetPage(ApiService apiService, string email, Action<object, string, string> onOtpVerified)
         {
             InitializeComponent();
             _apiService = apiService;
             _email = email;
+            _onOtpVerified = onOtpVerified;
             BindingContext = this;
         }
 
-        public string PIN
-        {
-            get => _pin;
-            set
-            {
-                if (_pin != value)
-                {
-                    _pin = value;
-                    OnPropertyChanged(nameof(PIN));
-                }
-            }
-        }
-
-
+        public string PIN { get; set; }
 
         private async void OnVerifyOTPClicked(object sender, EventArgs e)
         {
             try
             {
-                var otpVerifcationData = new OtpDTO
+                var otpVerificationData = new OtpDTO
                 {
-                    Otp = _pin,
+                    Otp = PIN,
                     Email = _email
                 };
-                // Verify OTP
-                var isSuccess = await _apiService.VerifyForgotOTPAsync(otpVerifcationData);
-                foreach (var page in Navigation.NavigationStack)
+
+                var isSuccess = await _apiService.VerifyForgotOTPAsync(otpVerificationData);
+
+                if (isSuccess)
                 {
-                    System.Diagnostics.Debug.WriteLine(page.GetType().Name);
+                    // Trigger the OTP verified callback
+                    _onOtpVerified?.Invoke(this, _email, PIN);
+                    await Navigation.PopAsync();
                 }
-
-                // Find the ForgotPasswordPage in the navigation stack
-                var forgotPasswordPage = Navigation.NavigationStack.OfType<ForgotPasswordPage>().FirstOrDefault();
-                if (forgotPasswordPage != null)
-                {
-                    await forgotPasswordPage.HandleOtpVerifiedAsync(_email);
-                }
-
-
-                //if (isSuccess)
-                //{
-
-                //    if (Navigation.NavigationStack.LastOrDefault() is ForgotPasswordPage forgotPasswordPage)
-                //    {
-                //        await forgotPasswordPage.HandleOtpVerifiedAsync(_email);
-                //    }
-
-                //    await Navigation.PopAsync();
-                //}
                 else
                 {
-
                     await DisplayAlert("Error", "Failed to verify OTP. Please try again.", "OK");
                 }
             }
@@ -78,7 +52,6 @@ namespace VidyamAcademy.Views.Startup
 
         private void OnPINEntryCompleted(object sender, EventArgs e)
         {
-            // Store the PIN value when PIN entry is completed
             var pinView = (PINView.Maui.PINView)sender;
             PIN = pinView.PINValue;
         }
