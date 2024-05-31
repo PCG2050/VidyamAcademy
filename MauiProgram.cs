@@ -22,8 +22,9 @@ namespace VidyamAcademy
             builder.Services.AddSingleton<DashboardPage>();
             builder.Services.AddSingleton<LoadingPage>();
             builder.Services.AddTransient<OTPEntryPage>();
+            builder.Services.AddTransient<OTPResetPage>();
             builder.Services.AddTransient<SignupPage>();
-            //builder.Services.AddTransient<ForgotPasswordPage>();
+            builder.Services.AddTransient<ForgotPasswordPage>();
 
 
 

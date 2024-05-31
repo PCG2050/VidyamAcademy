@@ -58,7 +58,7 @@ namespace VidyamAcademy.Views.Startup
                
                 // Send the sign-up data to the API
                 var isSuccess = await _apiService.SignUpAsync(signUpData); 
-                //var isSuccess = await ApiService.GetInstance(ApiUrls.BaseUrl).SignUpAsync(signUpData);
+                
 
                 if (isSuccess)
                 {

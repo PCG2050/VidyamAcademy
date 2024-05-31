@@ -16,8 +16,8 @@ namespace VidyamAcademy.Views.Startup
 
         private async void ForgotPasswordTapped(object sender, TappedEventArgs e)
         {
-            //await Navigation.PushAsync(new ForgotPasswordPage());
-            // await Navigation.PushAsync(new ForgotPasswordPage(_apiService));
+           
+             await Navigation.PushAsync(new ForgotPasswordPage(_apiService));
         }
 
         private async void OnSignUpLabelTapped(object sender, TappedEventArgs e)

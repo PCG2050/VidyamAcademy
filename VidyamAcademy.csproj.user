@@ -26,6 +26,9 @@
     <MauiXaml Update="Views\Dashboard\TestPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
+    <MauiXaml Update="Views\Startup\ForgotPasswordPage.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="Views\Startup\LoadingPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
@@ -33,6 +36,9 @@
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="Views\Startup\OTPEntryPage.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="Views\Startup\OTPResetPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="Views\Startup\SignupPage.xaml">

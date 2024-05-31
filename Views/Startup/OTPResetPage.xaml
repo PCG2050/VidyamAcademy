@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VidyamAcademy.Views.Startup.OTPResetPage"
+             xmlns:pinview="clr-namespace:PINView.Maui;assembly=PINView.Maui"
+             BackgroundColor="#1771EB"
+             Title="ENTER OTP">
+    <ContentPage.Content>
+
+        <StackLayout HorizontalOptions="Center" WidthRequest="400" VerticalOptions="Center">
+            <Frame BackgroundColor="Transparent" Margin="10,0,0,100" BorderColor="Transparent" >
+
+
+                <pinview:PINView
+            BoxBackgroundColor="White"
+            BoxShape="RoundCorner"
+            PINLength="6"
+            PINValue="{Binding PIN}"
+            PINEntryCompleted="OnPINEntryCompleted"
+            Color="#442C2E" 
+            PINInputType ="Numeric"
+            BoxFocusAnimation ="ZoomInOut"/>
+            </Frame>
+            <!-- Button to trigger OTP verification -->
+
+            <Button Text="Verify OTP" Margin="0,0,0,0" WidthRequest="300" CornerRadius="20" TextColor="Black" HorizontalOptions="Center" Clicked="OnVerifyOTPClicked" BackgroundColor="#1771EB" BorderColor="Black" BorderWidth="1"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
