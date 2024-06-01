@@ -8,23 +8,30 @@ using System.Threading.Tasks;
 
 namespace VidyamAcademy.ViewModels.Dashboard
 {
-    public class DashboardPageViewModel : ContentPage
+    public class DashboardPageViewModel : BindableObject
     {
         public ObservableCollection<Course> Courses { get; set; }
+        public ObservableCollection<ImageItem> ImageItems { get; set; }
 
         public DashboardPageViewModel(ApiService apiService)
         {
             InitializeData();
+            InitializeImages();
             AppShell.Current.FlyoutHeader = new FlyoutHeaderControl(apiService);
         }
 
         private void InitializeData()
         {
             // Initialize your data here or retrieve it from a service
-            Courses = new ObservableCollection<Course>
-        {  new Course
+          Courses = new ObservableCollection<Course>
+          {  new Course
             {
-                Name = "Course 1",
+                Name = "IAS COACHING WITH PRELIMINARY AND SECONDARY",
+                Description = "UPSC Online Coaching is an excellent choice for those aspiring to crack the prestigious UPSC exam. " +
+                                "The UPSC Online Coaching Program at Physics Wallah is designed to provide students with the finest and most cost-effective courses. " +
+                                "Our expertise and guidance provide students with a solid foundation and a strategic approach to tackle the challenges of the UPSC examination," +
+                                " not only via its own courses, but also via OnlyIAS courses. So, start your IAS preparation journey with a Physics Wallah UPSC course now.",
+                Amount = "2000",
                 Subjects = new List<Subject>
                 {
                     new Subject
@@ -55,6 +62,11 @@ namespace VidyamAcademy.ViewModels.Dashboard
             new Course
             {
                 Name = "Course 2",
+                Description = "UPSC Online Coaching is an excellent choice for those aspiring to crack the prestigious UPSC exam. " +
+                                "The UPSC Online Coaching Program at Physics Wallah is designed to provide students with the finest and most cost-effective courses. " +
+                                "Our expertise and guidance provide students with a solid foundation and a strategic approach to tackle the challenges of the UPSC examination," +
+                                " not only via its own courses, but also via OnlyIAS courses. So, start your IAS preparation journey with a Physics Wallah UPSC course now.",
+                Amount = "2000",
                 Subjects = new List<Subject>
                 {
                     new Subject
@@ -80,6 +92,11 @@ namespace VidyamAcademy.ViewModels.Dashboard
             new Course
             {
                 Name = "Course 3",
+                Description = "UPSC Online Coaching is an excellent choice for those aspiring to crack the prestigious UPSC exam. " +
+                                "The UPSC Online Coaching Program at Physics Wallah is designed to provide students with the finest and most cost-effective courses. " +
+                                "Our expertise and guidance provide students with a solid foundation and a strategic approach to tackle the challenges of the UPSC examination," +
+                                " not only via its own courses, but also via OnlyIAS courses. So, start your IAS preparation journey with a Physics Wallah UPSC course now.",
+                Amount = "2000",
                 Subjects = new List<Subject>
                 {
                     new Subject
@@ -103,10 +120,16 @@ namespace VidyamAcademy.ViewModels.Dashboard
                 }
             },
             // Add more courses with subjects and videos as needed
-        };
-
-
-
+          };
+        }
+        private void InitializeImages()
+        {
+            ImageItems = new ObservableCollection<ImageItem>
+            {
+                new ImageItem { ImageSource = "dbimage1.jpg" },
+                new ImageItem { ImageSource = "dbimage2.jpg" },
+                new ImageItem { ImageSource = "dbimage3.jpg" }
+            };
         }
 
     }

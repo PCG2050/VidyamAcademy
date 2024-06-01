@@ -3,51 +3,70 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="VidyamAcademy.Views.Dashboard.DashboardPage"
              Title="DashboardPage">
-    <ScrollView>
-        <StackLayout>
+    <StackLayout>
+        <!-- Carousel View for rotating images -->
+        <CarouselView x:Name="imageCarousel" 
+                      HeightRequest="250" 
+                      HorizontalOptions="FillAndExpand" 
+                      IndicatorView="indicatorView"
+                      Loop="True"
+                      ItemsSource="{Binding ImageItems}" Margin="0,30,0,0">
+            <CarouselView.ItemsLayout>
+                <LinearItemsLayout Orientation="Horizontal" />
+            </CarouselView.ItemsLayout>
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <Image Source="{Binding ImageSource}" Aspect="AspectFill" />
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+        <IndicatorView x:Name="indicatorView" IndicatorColor="Gray" SelectedIndicatorColor="Black" />
 
-            <ListView x:Name="coursesListView" ItemsSource="{Binding Courses}"  RowHeight="100" ItemSelected="OnCourseSelected" Margin="0,20,0,0" HasUnevenRows="False" SeparatorVisibility="None">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <!-- Custom Border template -->
+        <!-- ScrollView for the list of courses -->
+        <ScrollView>
+            <StackLayout>
+                <CollectionView x:Name="coursesCollectionView" 
+                                ItemsSource="{Binding Courses}" 
+                                ItemSizingStrategy="MeasureAllItems"
+                                SelectionMode="Single" 
+                                SelectionChanged="OnCourseSelected">
+                    <CollectionView.ItemsLayout>
+                        <LinearItemsLayout Orientation="Horizontal" />
+                    </CollectionView.ItemsLayout>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
                             <Border WidthRequest="300"
-                           HeightRequest="100"                                 
-                           Margin="0,0,0,10"
-                           Stroke="{AppThemeBinding Light=#EB9117, Dark=Black}"
-                           StrokeThickness="2"
-                           BackgroundColor="{AppThemeBinding Light=#EB9117, Dark=#71EB17}"
-                           StrokeShape="RoundRectangle 10,40,40,10">
+                                    HeightRequest="100"                                 
+                                    Margin="0,0,0,10"
+                                    Stroke="{AppThemeBinding Light=#EB9117, Dark=Black}"
+                                    StrokeThickness="2"
+                                    BackgroundColor="{AppThemeBinding Light=#EB9117, Dark=#71EB17}"
+                                    StrokeShape="RoundRectangle 10,40,40,10">
 
                                 <Border.Shadow>
                                     <Shadow Brush="Gray"
-                                   Offset="2,2"
-                                   Opacity="0.8"/>
+                                            Offset="2,2"
+                                            Opacity="0.8"/>
                                 </Border.Shadow>
 
                                 <HorizontalStackLayout HorizontalOptions="FillAndExpand">
-                                    <!-- Nested StackLayout for Image and Label -->
                                     <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                        <!-- Image overlay aligned to the start -->
                                         <Image Source="coursebackground.png" HeightRequest="50" WidthRequest="50" Opacity="0.4" />
-
-                                        <!-- Label aligned to the end -->
                                         <Label Text="{Binding Name}" 
-                                      FontSize="30" 
-                                      TextColor="{AppThemeBinding Light=Black, Dark=White}" 
-                                      VerticalOptions="EndAndExpand" 
-                                      HorizontalOptions="EndAndExpand" 
-                                      HorizontalTextAlignment="End" 
-                                      Margin="70,0,0,20" />
+                                               FontSize="30" 
+                                               TextColor="{AppThemeBinding Light=Black, Dark=White}" 
+                                               VerticalOptions="EndAndExpand" 
+                                               HorizontalOptions="EndAndExpand" 
+                                               HorizontalTextAlignment="End" 
+                                               Margin="70,0,0,20" />
                                     </StackLayout>
                                 </HorizontalStackLayout>
 
                             </Border>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-
-        </StackLayout>
-    </ScrollView>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+        </ScrollView>
+    </StackLayout>
 </ContentPage>

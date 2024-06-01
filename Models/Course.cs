@@ -9,6 +9,10 @@ namespace VidyamAcademy.Models
     public class Course
     {
         public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public string Amount { get; set; }
         public List<Subject> Subjects { get; set; }
 
     }

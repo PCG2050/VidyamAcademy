@@ -57,6 +57,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\dbimage1.jpg" />
+	  <None Remove="Resources\Images\dbimage2.jpg" />
+	  <None Remove="Resources\Images\dbimage3.jpg" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Azure.Storage.Blobs" Version="12.20.0" />
 		<PackageReference Include="CommunityToolkit.Maui.MediaElement" Version="3.1.1" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
