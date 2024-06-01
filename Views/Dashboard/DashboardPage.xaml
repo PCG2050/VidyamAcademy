@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:VidyamAcademy.Converters"
              x:Class="VidyamAcademy.Views.Dashboard.DashboardPage"
              Title="DashboardPage">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:ImageConverter x:Key="ImageConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <StackLayout>
         <!-- Carousel View for rotating images -->
         <CarouselView x:Name="imageCarousel" 
@@ -20,53 +27,49 @@
                 </DataTemplate>
             </CarouselView.ItemTemplate>
         </CarouselView>
-        <IndicatorView x:Name="indicatorView" IndicatorColor="Gray" SelectedIndicatorColor="Black" />
-
-        <!-- ScrollView for the list of courses -->
+        <IndicatorView x:Name="indicatorView" IndicatorColor="Gray" HorizontalOptions="Center" SelectedIndicatorColor="Black" />
+        <StackLayout Margin="10,20,0,20">
+            <Label Text="Courses We Offer" TextColor="Black" FontAttributes="Bold" FontSize="Title"/>
+        </StackLayout>
+        <!-- ScrollView for CollectionView -->
         <ScrollView>
-            <StackLayout>
-                <CollectionView x:Name="coursesCollectionView" 
-                                ItemsSource="{Binding Courses}" 
-                                ItemSizingStrategy="MeasureAllItems"
-                                SelectionMode="Single" 
-                                SelectionChanged="OnCourseSelected">
-                    <CollectionView.ItemsLayout>
-                        <LinearItemsLayout Orientation="Horizontal" />
-                    </CollectionView.ItemsLayout>
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <Border WidthRequest="300"
-                                    HeightRequest="100"                                 
-                                    Margin="0,0,0,10"
-                                    Stroke="{AppThemeBinding Light=#EB9117, Dark=Black}"
-                                    StrokeThickness="2"
-                                    BackgroundColor="{AppThemeBinding Light=#EB9117, Dark=#71EB17}"
-                                    StrokeShape="RoundRectangle 10,40,40,10">
-
-                                <Border.Shadow>
-                                    <Shadow Brush="Gray"
-                                            Offset="2,2"
-                                            Opacity="0.8"/>
-                                </Border.Shadow>
-
-                                <HorizontalStackLayout HorizontalOptions="FillAndExpand">
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
-                                        <Image Source="coursebackground.png" HeightRequest="50" WidthRequest="50" Opacity="0.4" />
-                                        <Label Text="{Binding Name}" 
-                                               FontSize="30" 
-                                               TextColor="{AppThemeBinding Light=Black, Dark=White}" 
-                                               VerticalOptions="EndAndExpand" 
-                                               HorizontalOptions="EndAndExpand" 
-                                               HorizontalTextAlignment="End" 
-                                               Margin="70,0,0,20" />
-                                    </StackLayout>
-                                </HorizontalStackLayout>
-
-                            </Border>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
-            </StackLayout>
+            <CollectionView x:Name="coursesCollectionView"
+                            ItemsSource="{Binding Courses}"
+                            ItemSizingStrategy="MeasureAllItems"
+                            SelectionMode="Single"
+                            SelectionChanged="OnCourseSelected">
+                <CollectionView.ItemsLayout>
+                    <LinearItemsLayout Orientation="Horizontal" />
+                </CollectionView.ItemsLayout>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid WidthRequest="300">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="150" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Image Source="{Binding ImageFileName, Converter={StaticResource ImageConverter}}"
+                                   Aspect="AspectFill"
+                                   HeightRequest="150"
+                                   WidthRequest="280"
+                                   Grid.Row="0" />
+                            <StackLayout VerticalOptions="End"  
+                                         BackgroundColor="White"  
+                                         Opacity="0.5"
+                                         Grid.Row="1"
+                                         Padding="10,10,0,0">
+                                <Label Text="{Binding Name}"  
+                                       TextColor="Black"
+                                       HorizontalOptions="Start" />
+                                <Label Text="{Binding Amount, StringFormat='${0:0.00}'}"  
+                                       TextColor="Black"
+                                       HorizontalOptions="Start"
+                                       FontAttributes="Bold"/>
+                            </StackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </ScrollView>
     </StackLayout>
 </ContentPage>

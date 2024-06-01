@@ -27,6 +27,7 @@ namespace VidyamAcademy.ViewModels.Dashboard
           {  new Course
             {
                 Name = "IAS COACHING WITH PRELIMINARY AND SECONDARY",
+                ImageFileName = "courseimage4.jpg",
                 Description = "UPSC Online Coaching is an excellent choice for those aspiring to crack the prestigious UPSC exam. " +
                                 "The UPSC Online Coaching Program at Physics Wallah is designed to provide students with the finest and most cost-effective courses. " +
                                 "Our expertise and guidance provide students with a solid foundation and a strategic approach to tackle the challenges of the UPSC examination," +
@@ -62,6 +63,7 @@ namespace VidyamAcademy.ViewModels.Dashboard
             new Course
             {
                 Name = "Course 2",
+                ImageFileName = "courseimage2.jpg",
                 Description = "UPSC Online Coaching is an excellent choice for those aspiring to crack the prestigious UPSC exam. " +
                                 "The UPSC Online Coaching Program at Physics Wallah is designed to provide students with the finest and most cost-effective courses. " +
                                 "Our expertise and guidance provide students with a solid foundation and a strategic approach to tackle the challenges of the UPSC examination," +
@@ -92,6 +94,7 @@ namespace VidyamAcademy.ViewModels.Dashboard
             new Course
             {
                 Name = "Course 3",
+                ImageFileName = "courseimage3.jpg",
                 Description = "UPSC Online Coaching is an excellent choice for those aspiring to crack the prestigious UPSC exam. " +
                                 "The UPSC Online Coaching Program at Physics Wallah is designed to provide students with the finest and most cost-effective courses. " +
                                 "Our expertise and guidance provide students with a solid foundation and a strategic approach to tackle the challenges of the UPSC examination," +
@@ -130,6 +133,10 @@ namespace VidyamAcademy.ViewModels.Dashboard
                 new ImageItem { ImageSource = "dbimage2.jpg" },
                 new ImageItem { ImageSource = "dbimage3.jpg" }
             };
+        }
+        public class ImageItem
+        {
+            public string ImageSource { get; set; }
         }
 
     }

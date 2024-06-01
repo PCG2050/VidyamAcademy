@@ -9,6 +9,7 @@ namespace VidyamAcademy.Models
     public class Course
     {
         public string Name { get; set; }
+        public string ImageFileName {  get; set; }
 
         public string Description { get; set; }
 

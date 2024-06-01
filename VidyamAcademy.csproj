@@ -57,6 +57,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Remove="Resources\Images\courseimage1.jpg" />
+	  <None Remove="Resources\Images\courseimage2.jpg" />
+	  <None Remove="Resources\Images\courseimage3.jpg" />
+	  <None Remove="Resources\Images\courseimage4.jpg" />
 	  <None Remove="Resources\Images\dbimage1.jpg" />
 	  <None Remove="Resources\Images\dbimage2.jpg" />
 	  <None Remove="Resources\Images\dbimage3.jpg" />
