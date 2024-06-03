@@ -18,6 +18,7 @@ global using System.Text;
 
 global using VidyamAcademy.ViewModels;
 global using VidyamAcademy.ViewModels.Dashboard;
+global using VidyamAcademy.Views;
 global using VidyamAcademy.Views.Dashboard;
 global using VidyamAcademy.Views.Startup;
 global using VidyamAcademy.ViewModels.Startup;

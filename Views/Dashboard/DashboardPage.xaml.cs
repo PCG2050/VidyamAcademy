@@ -1,7 +1,3 @@
-
-using System.Timers;
-
-
 namespace VidyamAcademy.Views.Dashboard
 {
     public partial class DashboardPage : ContentPage
@@ -11,7 +7,7 @@ namespace VidyamAcademy.Views.Dashboard
         public DashboardPage(DashboardPageViewModel viewModel)
         {
             InitializeComponent();
-            this.BindingContext = viewModel;
+            BindingContext = viewModel;
             StartCarousel();
         }
 
@@ -41,24 +37,26 @@ namespace VidyamAcademy.Views.Dashboard
             _carouselTimer?.Stop();
         }
 
-        private void OnCourseSelected(object sender, SelectionChangedEventArgs e)
+        private async void OnCourseSelected(object sender, SelectionChangedEventArgs e)
         {
-            try
+            if (e.CurrentSelection.FirstOrDefault() is Course selectedCourse)
             {
-                if (e.CurrentSelection.FirstOrDefault() is Course selectedCourse)
+                try
                 {
-                    Navigation.PushAsync(new SubjectsPage(selectedCourse.Subjects));
+
+                    
+                    await Navigation.PushAsync(new CourseDetailPage(selectedCourse));
                 }
-            }
-            catch (Exception ex)
-            {
-                // Handle or log the exception
-                Console.WriteLine($"Error in OnCourseSelected: {ex.Message}");
-            }
-            finally
-            {
-                // Reset the selection
-                ((CollectionView)sender).SelectedItem = null;
+                catch (Exception ex)
+                {
+                    // Handle or log the exception
+                    Console.WriteLine($"Error in OnCourseSelected: {ex.Message}");
+                }
+                finally
+                {
+                    // Reset the selection
+                    ((CollectionView)sender).SelectedItem = null;
+                }
             }
         }
     }

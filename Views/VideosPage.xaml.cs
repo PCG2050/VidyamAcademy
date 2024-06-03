@@ -15,7 +15,9 @@ namespace VidyamAcademy.Views
             }
 
             Videos = selectedSubject.Videos ?? throw new ArgumentException("Selected subject must have a valid Videos collection.", nameof(selectedSubject));
-            BindingContext = this;
+            var viewModel = new VideosPageViewModel(selectedSubject);
+            BindingContext = viewModel;
+            //BindingContext = this;
         }
 
         protected override void OnAppearing()
@@ -24,18 +26,23 @@ namespace VidyamAcademy.Views
             videosCollectionView.ItemsSource = Videos;
         }
 
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            mediaElement.Pause();
+        }
+
         private void OnThumbnailTapped(object sender, EventArgs e)
         {
             mediaElement.IsVisible = true;
             if (sender is ImageButton imageButton && imageButton.CommandParameter is string videoUrl)
             {
-                // Update highlighting
+              
                 HighlightButton(imageButton);
 
-                // Set the MediaElement source to the tapped videoUrl
+               
                 mediaElement.Source = new Uri(videoUrl);
 
-                // Play the video
                 mediaElement.Play();
             }
         }
@@ -49,7 +56,7 @@ namespace VidyamAcademy.Views
             }
 
             // Highlight the current button by reducing its opacity
-            currentButton.Opacity = 0.5; // Adjust opacity as needed
+            currentButton.Opacity = 0.5; 
 
             _previousButton = currentButton;
         }

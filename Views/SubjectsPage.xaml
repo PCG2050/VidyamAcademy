@@ -2,35 +2,50 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="VidyamAcademy.Views.SubjectsPage"
-             xmlns:models ="clr-namespace:VidyamAcademy.Models"
+             xmlns:models="clr-namespace:VidyamAcademy.Models"
+             xmlns:viewmodels="clr-namespace:VidyamAcademy.ViewModels"
              Title="Subjects">
+    <ContentPage.BindingContext>
+        <viewmodels:SubjectsPageViewModel />
+    </ContentPage.BindingContext>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height=".1*"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-    <StackLayout Margin="10">
-        <ListView x:Name="subjectsListView" ItemSelected="OnSubjectSelected" RowHeight="80">
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="models:Subject">
-                    <ViewCell>
-                        <Frame Padding="10" Margin="0,5,0,5">
-                            <StackLayout Spacing="10" Orientation="Horizontal">
-                                <Frame BackgroundColor="{Binding BackgroundColor}" Padding="0" HeightRequest="50" WidthRequest="50" CornerRadius="25" >
-                                    <Label Text="{Binding FirstCharofName}" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+        <StackLayout Margin="10">
+            <ListView x:Name="subjectsListView"
+                      ItemsSource="{Binding Subjects}"
+                      ItemSelected="OnSubjectSelected"
+                      HasUnevenRows="True"
+                      SelectionMode="Single">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Subject">
+                        <ViewCell>
+                            <StackLayout>
+                                <Frame Padding="10" Margin="0,5,0,5">
+                                    <StackLayout Spacing="10" Orientation="Horizontal">
+                                        <Frame BackgroundColor="{Binding BackgroundColor}" Padding="0" HeightRequest="50" WidthRequest="50" CornerRadius="25">
+                                            <Label Text="{Binding FirstCharofName}" FontSize="18" FontAttributes="Bold" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" />
+                                        </Frame>
+                                        <StackLayout Padding="10,0,0,0">
+                                            <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" VerticalOptions="CenterAndExpand" />
+                                        </StackLayout>
+                                    </StackLayout>
                                 </Frame>
-                                <StackLayout Padding="10,0,0,0">
-                                    <Label Text="{Binding Name}" FontSize="18" FontAttributes="Bold" VerticalOptions="CenterAndExpand"/>
+                                <StackLayout IsVisible="{Binding IsExpanded}" BackgroundColor="LightGray">
+                                    <Label Text="{Binding Description}" FontSize="16" />
+                                    <Label Text="{Binding Amount, StringFormat='Amount: {0}'}" FontSize="16" />
+                                    <StackLayout Padding="10" Spacing="5">
+                                    <Button Text="Go to Videos" Command="{Binding BindingContext.GoToVideosCommand, Source={x:Reference subjectsListView}}" CommandParameter="{Binding .}" />
+                                    <Button Text="Pay Now"  Command="{Binding BindingContext.PayNowCommand, Source={x:Reference subjectsListView}}" CommandParameter="{Binding .}" />
+                                    </StackLayout>
                                 </StackLayout>
                             </StackLayout>
-                        </Frame>
-                    </ViewCell>
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </StackLayout>
-        <StackLayout Grid.Row="2" Padding="10">
-            <Button   Text="PAY NOW" FontAttributes="Bold"/>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </Grid>
 </ContentPage>

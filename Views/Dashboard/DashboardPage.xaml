@@ -54,7 +54,8 @@
                                    WidthRequest="280"
                                    Grid.Row="0" />
                             <StackLayout VerticalOptions="End"  
-                                         BackgroundColor="White"  
+                                         BackgroundColor="White"
+                                         
                                          Opacity="0.5"
                                          Grid.Row="1"
                                          Padding="10,10,0,0">

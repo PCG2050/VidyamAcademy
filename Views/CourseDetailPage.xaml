@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="VidyamAcademy.Views.CourseDetailPage"
+             Title="Course Details">
+    <StackLayout Padding="20">
+        <Image Source="{Binding ImageFileName}" Aspect="AspectFill" HeightRequest="200" />
+        <Label Text="{Binding Name}" FontSize="24" FontAttributes="Bold" Margin="0,20,0,10" />
+        <Label Text="{Binding Description}" FontSize="18" Margin="0,0,0,20" />
+        <Label Text="{Binding Amount, StringFormat='${0:0.00}'}" FontSize="18" FontAttributes="Bold" Margin="0,0,0,20" />
+        <Button Text="View Subjects" Command="{Binding ViewSubjectsCommand}" />
+        <Button Text="Pay Now" Command="{Binding PayNowCommand}" Margin="0,10,0,0" />
+    </StackLayout>
+</ContentPage>

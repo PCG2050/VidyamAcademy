@@ -6,23 +6,25 @@ using System.Threading.Tasks;
 
 namespace VidyamAcademy.ViewModels
 {
-    
-        public partial class VideosPageViewModel : ObservableObject
+
+    public partial class VideosPageViewModel : ObservableObject
+    {
+        [ObservableProperty]
+        private string title;
+
+        [ObservableProperty]
+        private List<Video> videos;
+
+
+        public VideosPageViewModel(Subject selectedSubject)
         {
-            [ObservableProperty]
-            private string title;
-
-            [ObservableProperty]
-            private List<Video> videos;
-
-            public void Initialize(Subject selectedSubject)
+            if (selectedSubject != null)
             {
-                if (selectedSubject != null)
-                {
-                    Title = selectedSubject.Name;
-                    Videos = selectedSubject.Videos;
-                }
+                Title = selectedSubject.Name;
+                Videos = selectedSubject.Videos;
             }
         }
+    }
 }
+
 

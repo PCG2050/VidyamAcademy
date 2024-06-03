@@ -2,3 +2,5 @@ bin/
 obj/
 .vs/
 /VidyamAcademy.csproj.user
+/Resources/Styles/Styles.xaml
+/Views/Startup/LoginPage.xaml.cs
