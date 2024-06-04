@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace VidyamAcademy.ViewModels
 {
@@ -15,6 +16,7 @@ namespace VidyamAcademy.ViewModels
         [ObservableProperty]
         private List<Video> videos;
 
+        public Subject SelectedSubject { get; }
 
         public VideosPageViewModel(Subject selectedSubject)
         {
@@ -22,8 +24,13 @@ namespace VidyamAcademy.ViewModels
             {
                 Title = selectedSubject.Name;
                 Videos = selectedSubject.Videos;
+                SelectedSubject = selectedSubject;
             }
         }
+        public ICommand PayNowCommand => new Command(async () =>
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new SubjectPaymentPage(SelectedSubject));
+        });
     }
 }
 

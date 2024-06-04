@@ -57,6 +57,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiAsset Remove="Resources\Raw\payment.html" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <None Remove="Resources\Images\courseimage1.jpg" />
 	  <None Remove="Resources\Images\courseimage2.jpg" />
 	  <None Remove="Resources\Images\courseimage3.jpg" />
@@ -64,6 +68,13 @@
 	  <None Remove="Resources\Images\dbimage1.jpg" />
 	  <None Remove="Resources\Images\dbimage2.jpg" />
 	  <None Remove="Resources\Images\dbimage3.jpg" />
+	  <None Remove="Resources\Images\downarrow.png" />
+	  <None Remove="Resources\Images\uparrow.png" />
+	  <None Remove="Resources\Raw\payment.html" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\Raw\payment.html" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -88,10 +99,16 @@
 	  <MauiXaml Update="Views\CourseDetailPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\PaymentPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Views\Startup\ForgotPasswordPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Views\Startup\OTPResetPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\SubjectPaymentPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

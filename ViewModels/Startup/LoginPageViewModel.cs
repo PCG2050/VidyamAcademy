@@ -67,10 +67,16 @@ namespace VidyamAcademy.ViewModels.Startup
             {
                 await SecureStorage.SetAsync("auth_token", loginResponse.Token);
                 await SecureStorage.SetAsync("refresh_token", loginResponse.RefreshToken);
+                await SecureStorage.SetAsync("user_id",loginResponse.UserDetail.Id.ToString());
+                await SecureStorage.SetAsync("user_name",loginResponse.UserDetail.UserName);
+                await SecureStorage.SetAsync("user_phonenumber", loginResponse.UserDetail.Phonenumber);
+                await SecureStorage.SetAsync("user_email", loginResponse.UserDetail.Email);                
+
 
                 Preferences.Set("user_id", loginResponse.UserDetail.Id);
                 Preferences.Set("user_name", loginResponse.UserDetail.UserName);
                 Preferences.Set("user_role", loginResponse.UserDetail.Role);
+               
             }
             catch (Exception ex)
             {

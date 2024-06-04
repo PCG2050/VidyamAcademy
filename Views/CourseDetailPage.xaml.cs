@@ -1,6 +1,4 @@
 
-using Microsoft.Maui.Controls;
-
 namespace VidyamAcademy.Views
 {
     public partial class CourseDetailPage : ContentPage
@@ -10,9 +8,5 @@ namespace VidyamAcademy.Views
             InitializeComponent();
             BindingContext = new CourseDetailViewModel(selectedCourse, Navigation);
         }
-
-       
     }
-
-   
 }

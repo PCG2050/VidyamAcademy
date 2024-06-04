@@ -52,12 +52,12 @@ namespace VidyamAcademy.Views
             // Reset the opacity of the previously highlighted button
             if (_previousButton != null)
             {
-                _previousButton.Opacity = 1.0; // Reset opacity to fully visible
-            }
+                _previousButton.Opacity = 1.0;             }
 
-            // Highlight the current button by reducing its opacity
+           
             currentButton.Opacity = 0.5; 
-
+            
+           
             _previousButton = currentButton;
         }
 
@@ -67,16 +67,12 @@ namespace VidyamAcademy.Views
             {
                 button.BackgroundColor = Colors.DarkGray;
                 button.Scale = 0.8;
+                Task.Delay(200);
+                button.Scale = 1;
             }
+
         }
 
-        private void OnButtonReleased(object sender, EventArgs e)
-        {
-            if (sender is ImageButton button)
-            {
-                button.BackgroundColor = Colors.LightGray;
-                button.Scale = 1.0;
-            }
-        }
+       
     }
 }

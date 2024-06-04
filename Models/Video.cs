@@ -13,5 +13,7 @@ namespace VidyamAcademy.Models
         public string VideoUrl { get; set; }
 
         public string ThumbnailUrl { get; set; }
+
+        public bool IsFree { get; set; }
     }
 }

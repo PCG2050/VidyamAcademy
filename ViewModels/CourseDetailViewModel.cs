@@ -1,6 +1,10 @@
-﻿namespace VidyamAcademy.ViewModels
+﻿using Microsoft.Maui.Controls;
+using System;
+using System.Threading.Tasks;
+
+namespace VidyamAcademy.ViewModels
 {
-    public class CourseDetailViewModel
+    public class CourseDetailViewModel : BaseViewModel
     {
         private readonly INavigation navigation;
 
@@ -11,18 +15,19 @@
         public CourseDetailViewModel(Course course, INavigation navigation)
         {
             SelectedCourse = course;
+            this.navigation = navigation;
 
             ViewSubjectsCommand = new Command(async () =>
             {
-
-
                 await navigation.PushAsync(new SubjectsPage(course.Subjects));
             });
 
-            PayNowCommand = new Command(() =>
-            {
-                // Implement payment logic here
-            });
+            PayNowCommand = new Command(async () => await NavigateToPaymentPage());
+        }
+
+        private async Task NavigateToPaymentPage()
+        {
+            await navigation.PushModalAsync(new PaymentPage(SelectedCourse));
         }
 
         public string Name => SelectedCourse.Name;

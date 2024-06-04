@@ -16,5 +16,8 @@ namespace VidyamAcademy.Models
 
         [JsonProperty("userDetail")]
         public UserDetail UserDetail { get; set; }
+
+        
+
     }
 }

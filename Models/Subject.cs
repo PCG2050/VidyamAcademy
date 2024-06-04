@@ -32,9 +32,29 @@ namespace VidyamAcademy.Models
             set
             {
                 _isExpanded = value;
+                ArrowIcon = IsExpanded ? "uparrow.png" : "downarrow.png";
                 OnPropertyChanged("IsExpanded"); 
             }
         }
+
+        private string? _arrowIcon;
+        public string ArrowIcon
+        {
+            get => _arrowIcon ?? "downarrow.png";
+            set
+            {
+                _arrowIcon = value;
+                //ArrowIcon = IsExpanded ? "uparrow.png" : "downarrow.png";
+                OnPropertyChanged("ArrowIcon");
+            }
+        }
+
+        public Color ExpandedBackgroundColor
+        {
+            get => IsExpanded ? Colors.LightGray : Colors.Transparent;
+        }
+
+
 
         public event PropertyChangedEventHandler PropertyChanged; 
 

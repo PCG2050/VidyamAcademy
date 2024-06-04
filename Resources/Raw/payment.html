@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Razorpay Payment</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        function pay(name, email, contact, amount,payingforName) {
+            var options = {
+                "key": "rzp_test_4u9nDtW9CbhyE3",
+                "amount": amount, 
+                "currency": "INR",
+                "name": "Vidyam Academy",
+                "description": payingforName,
+                "image": "logo_path", 
+                "handler": function (response) {
+                    alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
+                    window.location.href = "payment-success://" + response.razorpay_payment_id;
+
+                },
+                "prefill": {
+                    "name": name,
+                    "email": email,
+                    "contact": contact
+                },
+                "notes": {
+                    "address": "Vidyam Academy Office"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.on('payment.failed', function (response) {
+                alert("Payment failed: " + response.error.description);
+                window.location.href = "payment-failure://" + response.error.description;
+
+            });
+            rzp1.open();
+        }
+
+        function initiatePayment() {
+            var name = '{{name}}';
+            var email = '{{email}}';
+            var contact = '{{contact}}';
+            var amount = '{{amount}}';
+            var payingforName = '{{payingforName}}';
+            pay(name, email, contact, amount, payingforName);
+        }
+    </script>
+</head>
+<body onload="initiatePayment()">
+</body>
+</html>

@@ -16,5 +16,10 @@ namespace VidyamAcademy.Models
 
         [JsonProperty("role")]
         public string Role { get; set; }
+
+        [JsonProperty("phonenumber")]
+        public string Phonenumber { get; set; }
+        [JsonProperty("email")]
+        public string Email { get; set; }
     }
 }

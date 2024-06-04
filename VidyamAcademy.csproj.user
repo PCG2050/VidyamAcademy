@@ -29,6 +29,9 @@
     <MauiXaml Update="Views\Dashboard\TestPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
+    <MauiXaml Update="Views\PaymentPage.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
     <MauiXaml Update="Views\Startup\ForgotPasswordPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
@@ -45,6 +48,9 @@
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="Views\Startup\SignupPage.xaml">
+      <SubType>Designer</SubType>
+    </MauiXaml>
+    <MauiXaml Update="Views\SubjectPaymentPage.xaml">
       <SubType>Designer</SubType>
     </MauiXaml>
     <MauiXaml Update="Views\SubjectsPage.xaml">
