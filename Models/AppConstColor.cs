@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace VidyamAcademy.Models
+﻿namespace VidyamAcademy.Models
 {
     public class AppConstantColor
     {
@@ -13,9 +7,16 @@ namespace VidyamAcademy.Models
             Colors.Orange,
             Colors.LightBlue,
             Colors.LightCoral,
-            Colors.LightGray,
+            Colors.Teal,
+            Colors.LightCyan,
+            Colors.LightSteelBlue,
+            Colors.LightGrey,
+            Colors.LightGoldenrodYellow,
+            Colors.Violet,
+            Colors.ForestGreen,
             Colors.LightSalmon,
-            Colors.LightSeaGreen
+            Colors.LightSeaGreen,
+            Colors.Maroon
 
         };
         public static Color GetRandomColor()

@@ -69,6 +69,8 @@
 	  <None Remove="Resources\Images\dbimage2.jpg" />
 	  <None Remove="Resources\Images\dbimage3.jpg" />
 	  <None Remove="Resources\Images\downarrow.png" />
+	  <None Remove="Resources\Images\padlock.png" />
+	  <None Remove="Resources\Images\playbutton.png" />
 	  <None Remove="Resources\Images\uparrow.png" />
 	  <None Remove="Resources\Raw\payment.html" />
 	</ItemGroup>

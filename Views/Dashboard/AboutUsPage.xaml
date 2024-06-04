@@ -3,10 +3,5 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="VidyamAcademy.Views.Dashboard.AboutUsPage"
              Title="AboutUsPage">
-    <VerticalStackLayout>
-        <Label 
-            Text="This is About Us Page!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <WebView Source="https://vidyamacademy.com/about-us/about-us.html" Navigated="WebView_Navigated"/>
 </ContentPage>

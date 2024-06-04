@@ -6,4 +6,9 @@ public partial class ContactUsPage : ContentPage
 	{
 		InitializeComponent();
 	}
+
+    private void WebView_Navigated(object sender, WebNavigatedEventArgs e)
+    {
+
+    }
 }

@@ -17,7 +17,6 @@ namespace VidyamAcademy.Views
             Videos = selectedSubject.Videos ?? throw new ArgumentException("Selected subject must have a valid Videos collection.", nameof(selectedSubject));
             var viewModel = new VideosPageViewModel(selectedSubject);
             BindingContext = viewModel;
-            //BindingContext = this;
         }
 
         protected override void OnAppearing()
@@ -34,16 +33,24 @@ namespace VidyamAcademy.Views
 
         private void OnThumbnailTapped(object sender, EventArgs e)
         {
-            mediaElement.IsVisible = true;
             if (sender is ImageButton imageButton && imageButton.CommandParameter is string videoUrl)
             {
-              
-                HighlightButton(imageButton);
+                var video = (Video)imageButton.BindingContext; // Assuming Video object is BindingContext
+                if (video.IsFree)
+                {
+                    // Highlight the current button
+                    HighlightButton(imageButton);
 
-               
-                mediaElement.Source = new Uri(videoUrl);
-
-                mediaElement.Play();
+                    // Existing logic for handling video playback (if free)
+                    mediaElement.IsVisible = true;
+                    mediaElement.Source = new Uri(videoUrl);
+                    mediaElement.Play();
+                }
+                else
+                {
+                    // Display alert and prevent playback (if not free)
+                    DisplayAlert("Pay Now", $"You need to pay to access this video. Pay now for subject: {((VideosPageViewModel)BindingContext).SelectedSubject.Name} to watch this video", "OK");
+                }
             }
         }
 
@@ -52,12 +59,13 @@ namespace VidyamAcademy.Views
             // Reset the opacity of the previously highlighted button
             if (_previousButton != null)
             {
-                _previousButton.Opacity = 1.0;             }
+                _previousButton.Opacity = 1.0;
+            }
 
-           
-            currentButton.Opacity = 0.5; 
-            
-           
+            // Highlight the current button by reducing its opacity
+            currentButton.Opacity = 0.5;
+
+            // Store the current button as the previous button for future reference
             _previousButton = currentButton;
         }
 
@@ -67,12 +75,8 @@ namespace VidyamAcademy.Views
             {
                 button.BackgroundColor = Colors.DarkGray;
                 button.Scale = 0.8;
-                Task.Delay(200);
-                button.Scale = 1;
+                Task.Delay(200).ContinueWith(_ => button.Scale = 1.0, TaskScheduler.FromCurrentSynchronizationContext());
             }
-
         }
-
-       
     }
 }

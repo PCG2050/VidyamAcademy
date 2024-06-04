@@ -82,7 +82,7 @@ namespace VidyamAcademy.ViewModels.Dashboard
                         Amount = "1000",
                         Videos = new List<Video>
                         {
-                            new Video { Title = "Video 5", VideoUrl = "https://vidyamblob.blob.core.windows.net/videos/sample video2.mp4?sv=2018-03-28&sr=b&sig=BOveCZejI2K0Ll2VZikbtoEAZ9MyNtdVZy7yMRisg0k%3D&se=2024-06-07T05%3A44%3A48Z&sp=r",ThumbnailUrl="Thumb1.jpg" , IsFree = false},
+                            new Video { Title = "Video 5", VideoUrl = "https://vidyamblob.blob.core.windows.net/videos/sample video2.mp4?sv=2018-03-28&sr=b&sig=BOveCZejI2K0Ll2VZikbtoEAZ9MyNtdVZy7yMRisg0k%3D&se=2024-06-07T05%3A44%3A48Z&sp=r",ThumbnailUrl="Thumb1.jpg" , IsFree = true},
                             new Video { Title = "Video 6", VideoUrl = "https://vidyamblob.blob.core.windows.net/videos/sample video2.mp4?sv=2018-03-28&sr=b&sig=BOveCZejI2K0Ll2VZikbtoEAZ9MyNtdVZy7yMRisg0k%3D&se=2024-06-07T05%3A44%3A48Z&sp=r" , ThumbnailUrl = "Thumb2.jpg", IsFree = false}
                         }
                     },
