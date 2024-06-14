@@ -9,15 +9,10 @@ namespace VidyamAcademy.Services
 {
     public class ApiService
     {
-        //private static ApiService _instance;
+          
         private readonly HttpClient _httpClient;
         private readonly string _baseUrl;
-        private readonly string _blobStorageConnectionString;
-
-        //private ApiService(string baseUrl)
-        //{
-        //    _baseUrl = baseUrl;
-        //}
+        private readonly string _blobStorageConnectionString;   
 
         public ApiService(HttpClient httpClient, string baseUrl, string blobStorageConnectionString)
         {
@@ -25,15 +20,7 @@ namespace VidyamAcademy.Services
             _baseUrl = baseUrl;
             _blobStorageConnectionString = blobStorageConnectionString;
         }
-        //public static ApiService GetInstance(string baseUrl)
-        //{
-        //    if (_instance == null)
-        //    {
-        //        _instance = new ApiService(baseUrl);
-        //    }
-        //    return _instance;
-        //}
-
+       
         private async Task AddAuthHeaderAsync()
         {
             var token = await SecureStorage.GetAsync("auth_token");
