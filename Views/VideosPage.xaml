@@ -37,7 +37,7 @@
                 VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand"
                 Grid.Row="1"
-                Margin="0,10">  
+                Margin="0,10">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="2" />
                 </CollectionView.ItemsLayout>
@@ -52,26 +52,26 @@
                                 <Label Text="{Binding Title}" FontSize="Medium" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center" Grid.Row="0" />
                                 <Grid Grid.Row="1">
                                     <ImageButton
-                            Clicked="OnThumbnailTapped"
-                            Pressed="OnButtonPressed"
-                            CommandParameter="{Binding VideoUrl}"
-                            Source="{Binding ThumbnailUrl}"
-                            HeightRequest="100"
-                            WidthRequest="150"
-                            Aspect="AspectFill"
-                            BackgroundColor="Transparent"
-                            Padding="0"
-                            Margin="0"
-                            HorizontalOptions="FillAndExpand"
-                            VerticalOptions="FillAndExpand" />
+                                        Clicked="OnThumbnailTapped"
+                                        Pressed="OnButtonPressed"
+                                        CommandParameter="{Binding EffectiveUrl}"
+                                        Source="{Binding ThumbnailUrl}"
+                                        HeightRequest="100"
+                                        WidthRequest="150"
+                                        Aspect="AspectFill"
+                                        BackgroundColor="Transparent"
+                                        Padding="0"
+                                        Margin="0"
+                                        HorizontalOptions="FillAndExpand"
+                                        VerticalOptions="FillAndExpand" />
                                     <AbsoluteLayout>
                                         <Image
-                                Source="{Binding IsFree, Converter={StaticResource BoolToOverlayImageConverter}}"
-                                Aspect="AspectFit"
-                                HeightRequest="40"
-                                WidthRequest="40"
-                                AbsoluteLayout.LayoutFlags="All"
-                                AbsoluteLayout.LayoutBounds="0.5,0.5,0.5,0.5" />
+                                            Source="{Binding ., Converter={StaticResource BoolToOverlayImageConverter}}"
+                                            Aspect="AspectFit"
+                                            HeightRequest="40"
+                                            WidthRequest="40"
+                                            AbsoluteLayout.LayoutFlags="All"
+                                            AbsoluteLayout.LayoutBounds="0.5,0.5,0.5,0.5" />
                                     </AbsoluteLayout>
                                 </Grid>
                             </Grid>
@@ -81,7 +81,8 @@
             </CollectionView>
 
             <StackLayout Grid.Row="2" Padding="10">
-                <Button Text="PAY NOW" Command="{Binding PayNowCommand}" FontAttributes="Bold" CornerRadius="10" />
+                <Button Text="PAY NOW" Command="{Binding PayNowCommand}" FontAttributes="Bold" CornerRadius="10"  IsEnabled="{Binding IsPayNowButtonEnabled}" 
+                        IsVisible="{Binding IsPayNowButtonEnabled}" />
             </StackLayout>
         </Grid>
     </ContentPage.Content>

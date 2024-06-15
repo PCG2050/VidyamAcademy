@@ -19,8 +19,8 @@ namespace VidyamAcademy.Models
         [JsonProperty("videoUrl")]
         public string VideoUrl { get; set; }
 
-        [JsonProperty("fk_SubjectId")]
-        public int Fk_SubjectId { get; set; }
+        [JsonProperty("fK_SubjectId")]
+        public string Fk_SubjectId { get; set; }
 
         [JsonProperty("isFree")]
         public bool IsFree { get; set; }
@@ -28,6 +28,8 @@ namespace VidyamAcademy.Models
         [JsonProperty("sasToken")]
         public string SasToken { get; set; }
 
-        public string EffectiveUrl => IsFree ? VideoUrl : SasToken;
+        
+     
+        public string EffectiveUrl => IsFree || !string.IsNullOrEmpty(SasToken) ? (string.IsNullOrEmpty(SasToken) ? VideoUrl : SasToken) : null;
     }
 }

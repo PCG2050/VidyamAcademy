@@ -58,6 +58,7 @@ namespace VidyamAcademy.Views
                 return htmlContent;
             }
         }
+        
 
         private async void OnNavigated(object sender, WebNavigatedEventArgs e)
         {

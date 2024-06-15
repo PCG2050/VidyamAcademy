@@ -37,9 +37,11 @@ namespace VidyamAcademy.ViewModels
         public string? Amount => SelectedCourse.Amount.ToString();
         public string? PaymentStatus => SelectedCourse.PaymentStatus;
         public DateTime? PaidUntil => SelectedCourse.PaidUntil;
-        public bool IsPaymentStatusPaid => PaymentStatus == "2"; 
-        public bool IsPayNowButtonEnabled => !IsPaymentStatusPaid;
-
-
+        public bool IsPaymentStatusPaid => SelectedCourse.IsPaymentStatusPaid;
+        public bool IsPayNowButtonEnabled => SelectedCourse.IsPayNowButtonEnabled;
+        public bool IsValidUntilVisible => SelectedCourse.IsValidUntilVisible;
     }
+
+
 }
+

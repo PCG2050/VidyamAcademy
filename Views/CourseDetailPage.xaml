@@ -14,7 +14,7 @@
                    FontSize="18" 
                    FontAttributes="Bold" 
                    Margin="0,0,0,20" 
-                   IsVisible="{Binding IsPaymentStatusPaid}" />
+                   IsVisible="{Binding IsValidUntilVisible}" />
 
 
             <Button Text="View Subjects" Command="{Binding ViewSubjectsCommand}" />
@@ -22,7 +22,7 @@
                 Command="{Binding PayNowCommand}" 
                 Margin="0,10,0,0"
                 IsEnabled="{Binding IsPayNowButtonEnabled}"
-                IsVisible="{Binding IsPaymentStatusPaid}"/>
+                IsVisible="{Binding IsPayNowButtonEnabled}"/>
     </StackLayout>
     </ScrollView>
 </ContentPage>

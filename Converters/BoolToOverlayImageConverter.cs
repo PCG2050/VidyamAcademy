@@ -1,19 +1,23 @@
 ﻿using System;
 using System.Globalization;
-using Microsoft.Maui.Controls;
 
 namespace VidyamAcademy.Converters
 {
     public class BoolToOverlayImageConverter : IValueConverter
-    {           
-
+    {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool isFree)
+            if (value is Video video)
             {
-                return isFree ? "playbutton" : "padlock.png";
+                if (video.IsFree || !string.IsNullOrEmpty(video.SasToken))
+                {
+                    return "playbutton.png"; 
+                }
+                else
+                {
+                    return "padlock.png"; 
+                }
             }
-
             return null;
         }
 
@@ -23,4 +27,3 @@ namespace VidyamAcademy.Converters
         }
     }
 }
-

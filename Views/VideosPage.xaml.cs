@@ -2,6 +2,7 @@ namespace VidyamAcademy.Views
 {
     public partial class VideosPage : ContentPage
     {
+        public List<Video> Videos { get; private set; }
         private ImageButton _previousButton;
 
         public VideosPage(ApiService apiService, Subject selectedSubject)
@@ -20,8 +21,10 @@ namespace VidyamAcademy.Views
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            var viewModel = BindingContext as VideosPageViewModel;
-         
+            if (BindingContext is VideosPageViewModel viewModel)
+            {
+                videosCollectionView.ItemsSource = viewModel.Videos;
+            }
         }
 
         protected override void OnDisappearing()
@@ -35,7 +38,7 @@ namespace VidyamAcademy.Views
             if (sender is ImageButton imageButton && imageButton.CommandParameter is string videoUrl)
             {
                 var video = (Video)imageButton.BindingContext; // Assuming Video object is BindingContext
-                if (video.IsFree)
+                if (video.IsFree || !string.IsNullOrEmpty(video.SasToken))
                 {
                     // Highlight the current button
                     HighlightButton(imageButton);
@@ -47,7 +50,7 @@ namespace VidyamAcademy.Views
                 }
                 else
                 {
-                    // Display alert and prevent playback (if not free)
+                    // Display alert and prevent playback (if not free and no SAS token)
                     DisplayAlert("Pay Now", $"You need to pay to access this video. Pay now for subject: {((VideosPageViewModel)BindingContext).SelectedSubject.Name} to watch this video", "OK");
                 }
             }

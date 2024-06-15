@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using VidyamAcademy.Models;
-using VidyamAcademy.Services; // Assuming this is where ApiService is defined
-using System.Threading.Tasks;
+using VidyamAcademy.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace VidyamAcademy.ViewModels
 {
@@ -12,7 +14,7 @@ namespace VidyamAcademy.ViewModels
         private string title;
 
         [ObservableProperty]
-        private List<Video> videos;
+        private ObservableCollection<Video> videos;
 
         private readonly ApiService _apiService;
         public Subject SelectedSubject { get; }
@@ -23,9 +25,7 @@ namespace VidyamAcademy.ViewModels
             SelectedSubject = selectedSubject ?? throw new ArgumentNullException(nameof(selectedSubject));
 
             Title = selectedSubject.Name;
-            Videos = selectedSubject.Videos ?? new List<Video>();
-
-            // Load videos from API
+            Videos = new ObservableCollection<Video>(selectedSubject.Videos ?? new List<Video>());
             LoadVideosAsync();
         }
 
@@ -34,7 +34,11 @@ namespace VidyamAcademy.ViewModels
             var videos = await _apiService.GetVideosBySubjectAsync(SelectedSubject.SubjectId);
             if (videos != null)
             {
-                Videos = videos;
+                Videos.Clear();
+                foreach (var video in videos)
+                {
+                    Videos.Add(video);
+                }
             }
         }
 
@@ -42,5 +46,6 @@ namespace VidyamAcademy.ViewModels
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new SubjectPaymentPage(SelectedSubject));
         });
+        public bool IsPayNowButtonEnabled => SelectedSubject.IsPayNowButtonEnabled;
     }
 }

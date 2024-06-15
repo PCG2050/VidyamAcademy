@@ -22,7 +22,20 @@ namespace VidyamAcademy.Models
         public DateTime? PaidUntil { get; set; }
 
         [JsonProperty("fk_CourseId")]
-        public int FK_CourseId { get; set; } 
+        public int FK_CourseId { get; set; }
+        [JsonProperty("paymentStatus")]
+        public string PaymentStatus { get; set; }
+
+        [JsonIgnore]
+        public bool IsPaymentStatusPaid => PaymentStatus == "2";
+
+        [JsonIgnore]
+        public bool IsPayNowButtonEnabled => !IsPaymentStatusPaid || PaymentStatus == null;
+    
+
+        [JsonIgnore]
+        public bool IsValidUntilVisible => IsPaymentStatusPaid;
+
 
         public List<Video> Videos { get; set; }
 

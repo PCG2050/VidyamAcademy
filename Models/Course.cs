@@ -27,6 +27,15 @@ namespace VidyamAcademy.Models
         public string Image { get; set; }
 
         [JsonProperty("paidUntil")]
-        public DateTime? PaidUntil { get; set; } 
+        public DateTime? PaidUntil { get; set; }
+
+        [JsonIgnore]
+        public bool IsPaymentStatusPaid => PaymentStatus == "2";
+
+        [JsonIgnore]
+        public bool IsPayNowButtonEnabled => !IsPaymentStatusPaid || string.IsNullOrEmpty(PaymentStatus);
+
+        [JsonIgnore]
+        public bool IsValidUntilVisible => IsPaymentStatusPaid;
     }
 }

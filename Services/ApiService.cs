@@ -346,7 +346,7 @@ namespace VidyamAcademy.Services
                 if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
                 {
                     Console.WriteLine("Error: Endpoint not found.");
-                    return null;
+                    return new List<Video>();
                 }
 
                 response.EnsureSuccessStatusCode();
@@ -354,15 +354,15 @@ namespace VidyamAcademy.Services
                 var responseBody = await response.Content.ReadAsStringAsync();
                 var videosResponse = JsonConvert.DeserializeObject<VideosResponse>(responseBody);
 
-                return videosResponse.VideoInfo;
+                return videosResponse.VideoInfo ?? new List<Video>();
             }
             catch (Exception ex)
             {
-                throw ex;
+                Console.WriteLine($"Error fetching videos: {ex.Message}");
+                return new List<Video>();
             }
-
         }
-        
+
 
         public class CourseResponse
         {
