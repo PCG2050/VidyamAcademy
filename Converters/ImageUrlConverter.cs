@@ -1,19 +1,20 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
-using Microsoft.Maui.Controls;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace VidyamAcademy.Converters
 {
-    public class BoolToOverlayImageConverter : IValueConverter
-    {           
-
+    public class ImageUrlConverter : IValueConverter
+    {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value is bool isFree)
+            if (value is string imageUrl && Uri.TryCreate(imageUrl, UriKind.Absolute, out var uri))
             {
-                return isFree ? "playbutton" : "padlock.png";
+                return ImageSource.FromUri(uri);
             }
-
             return null;
         }
 
@@ -23,4 +24,3 @@ namespace VidyamAcademy.Converters
         }
     }
 }
-

@@ -1,24 +1,25 @@
-
+using System;
+using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
-
+using Microsoft.Maui.Controls;
+using VidyamAcademy.Models;
 
 namespace VidyamAcademy.Views
 {
     public partial class SubjectPaymentPage : ContentPage
     {
         private readonly Subject _subject;
+        private readonly ApiService _apiService;
 
         public SubjectPaymentPage(Subject subject)
         {
             InitializeComponent();
             _subject = subject;
-
-            // Call the method to load the payment page with the course details
             LoadPaymentPage();
         }
 
-        private async Task LoadPaymentPage()
+        private async void LoadPaymentPage()
         {
             try
             {
@@ -26,13 +27,11 @@ namespace VidyamAcademy.Views
                 var email = await SecureStorage.GetAsync("user_email");
                 var phoneNumber = await SecureStorage.GetAsync("user_phonenumber");
 
-                var webViewContent = await GetHtmlContent(username, email, phoneNumber, _subject.Amount, _subject.Name);
-
+                var webViewContent = await GetHtmlContent(username, email, phoneNumber, _subject.Amount.ToString(), _subject.Name);
                 PaymentWebView.Source = new HtmlWebViewSource { Html = webViewContent };
             }
             catch (Exception ex)
             {
-                // Handle potential errors (e.g., missing secure storage values)
                 await Application.Current.MainPage.DisplayAlert("Error", "Failed to load payment details. Please try again.", "OK");
             }
         }
@@ -59,6 +58,7 @@ namespace VidyamAcademy.Views
                 return htmlContent;
             }
         }
+
         private async void OnNavigated(object sender, WebNavigatedEventArgs e)
         {
             if (e.Url.StartsWith("payment-success://"))
@@ -78,7 +78,7 @@ namespace VidyamAcademy.Views
                 await Navigation.PopModalAsync();
                 if (success)
                 {
-                    await Application.Current.MainPage.Navigation.PushAsync(new VideosPage(_subject));
+                    await Application.Current.MainPage.Navigation.PushAsync(new VideosPage(_apiService, _subject));
                 }
                 else
                 {

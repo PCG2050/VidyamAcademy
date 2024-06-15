@@ -15,8 +15,8 @@
             Colors.Violet,
             Colors.ForestGreen,
             Colors.LightSalmon,
-            Colors.LightSeaGreen,
-            Colors.Maroon
+            Colors.LightSeaGreen
+            
 
         };
         public static Color GetRandomColor()

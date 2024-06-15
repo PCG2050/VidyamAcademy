@@ -31,15 +31,9 @@ namespace VidyamAcademy.Constants
         public const string VerifySignUpOTP = "Users/verify-otp";
 
         //course
-        public const string Courses = "Courses";
+        public const string Courses = "SubscriptionCourse/subscriptionCourse-info";
 
-        //subject
-        public const string Subjects = "Subjects";
-        public const string SubjectByCourse = "Subjects/ByCourse/{courseId}";
-
-        //Video
-        public const string Videos = "Videos";
-        public const string VideosBySubject = "Videos/BySubject/{subjectId}";
+        
         #endregion
     }
 }

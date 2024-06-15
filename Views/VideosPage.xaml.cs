@@ -2,10 +2,9 @@ namespace VidyamAcademy.Views
 {
     public partial class VideosPage : ContentPage
     {
-        public List<Video> Videos { get; private set; }
         private ImageButton _previousButton;
 
-        public VideosPage(Subject selectedSubject)
+        public VideosPage(ApiService apiService, Subject selectedSubject)
         {
             InitializeComponent();
 
@@ -14,15 +13,15 @@ namespace VidyamAcademy.Views
                 throw new ArgumentNullException(nameof(selectedSubject), "Selected subject cannot be null.");
             }
 
-            Videos = selectedSubject.Videos ?? throw new ArgumentException("Selected subject must have a valid Videos collection.", nameof(selectedSubject));
-            var viewModel = new VideosPageViewModel(selectedSubject);
+            var viewModel = new VideosPageViewModel(apiService, selectedSubject);
             BindingContext = viewModel;
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            videosCollectionView.ItemsSource = Videos;
+            var viewModel = BindingContext as VideosPageViewModel;
+         
         }
 
         protected override void OnDisappearing()
@@ -41,9 +40,9 @@ namespace VidyamAcademy.Views
                     // Highlight the current button
                     HighlightButton(imageButton);
 
-                    // Existing logic for handling video playback (if free)
+                    // Use EffectiveUrl for the MediaElement source
                     mediaElement.IsVisible = true;
-                    mediaElement.Source = new Uri(videoUrl);
+                    mediaElement.Source = new Uri(video.EffectiveUrl);
                     mediaElement.Play();
                 }
                 else

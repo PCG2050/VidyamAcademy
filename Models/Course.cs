@@ -1,20 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using System;
 
 namespace VidyamAcademy.Models
 {
     public class Course
     {
-        public string Name { get; set; }
-        public string ImageFileName {  get; set; }
+        [JsonProperty("courseId")]
+        public int CourseId { get; set; }
 
+        [JsonProperty("name")]
+        public string Name { get; set; }
+
+        [JsonProperty("description")]
         public string Description { get; set; }
 
-        public string Amount { get; set; }
-        public List<Subject> Subjects { get; set; }
+        [JsonProperty("amount")]
+        public decimal Amount { get; set; }
 
+        [JsonProperty("userId")]
+        public int UserId { get; set; }
+
+        [JsonProperty("paymentStatus")]
+        public string? PaymentStatus { get; set; }
+
+        [JsonProperty("image")]
+        public string Image { get; set; }
+
+        [JsonProperty("paidUntil")]
+        public DateTime? PaidUntil { get; set; } 
     }
 }

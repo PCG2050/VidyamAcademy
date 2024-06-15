@@ -1,19 +1,24 @@
+using Microsoft.Maui.Controls;
+using System;
+
 namespace VidyamAcademy.Views.Dashboard
 {
     public partial class DashboardPage : ContentPage
     {
         private System.Timers.Timer _carouselTimer;
+        private readonly ApiService _apiService;
 
-        public DashboardPage(DashboardPageViewModel viewModel)
+        public DashboardPage(DashboardPageViewModel viewModel, ApiService apiService)
         {
             InitializeComponent();
             BindingContext = viewModel;
+            _apiService = apiService;
             StartCarousel();
         }
 
         private void StartCarousel()
         {
-            _carouselTimer = new System.Timers.Timer(2000); // Set timer to 2 seconds
+            _carouselTimer = new System.Timers.Timer(2000);
             _carouselTimer.Elapsed += (sender, e) =>
             {
                 Dispatcher.Dispatch(() =>
@@ -43,26 +48,17 @@ namespace VidyamAcademy.Views.Dashboard
             {
                 try
                 {
-
-                    
-                    await Navigation.PushAsync(new CourseDetailPage(selectedCourse));
+                    await Navigation.PushAsync(new CourseDetailPage(selectedCourse, _apiService));
                 }
                 catch (Exception ex)
                 {
-                    // Handle or log the exception
                     Console.WriteLine($"Error in OnCourseSelected: {ex.Message}");
                 }
                 finally
                 {
-                    // Reset the selection
                     ((CollectionView)sender).SelectedItem = null;
                 }
             }
         }
-    }
-
-    public class ImageItem
-    {
-        public string ImageSource { get; set; }
     }
 }

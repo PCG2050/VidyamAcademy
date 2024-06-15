@@ -1,17 +1,21 @@
+using Microsoft.Maui.Controls;
+using VidyamAcademy.Models;
+using VidyamAcademy.Services;
+using VidyamAcademy.ViewModels;
+
 namespace VidyamAcademy.Views
 {
     public partial class SubjectsPage : ContentPage
     {
-        public SubjectsPage(List<Subject> subjects)
-        {
-            InitializeComponent();
-            BindingContext = new SubjectsPageViewModel(subjects);
-        }
+        private readonly ApiService _apiService;
+        private readonly int _courseId;
 
-        public SubjectsPage()
+        public SubjectsPage(ApiService apiService, int courseId)
         {
             InitializeComponent();
-            BindingContext = new SubjectsPageViewModel();
+            _apiService = apiService;
+            _courseId = courseId;
+            BindingContext = new SubjectsPageViewModel(_apiService, _courseId);
         }
 
         private void OnSubjectSelected(object sender, SelectedItemChangedEventArgs e)

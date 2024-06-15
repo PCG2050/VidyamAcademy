@@ -2,6 +2,7 @@
 using System;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -256,6 +257,129 @@ namespace VidyamAcademy.Services
             var response = await _httpClient.PostAsync($"{_baseUrl}/{ApiUrls.VerifyandSetNewPassword}", content);
             response.EnsureSuccessStatusCode();
         }
+        //Videos subjects and courses apis 
+
+        public async Task<List<Course>> GetCourseDetailsAsync()
+        {
+            try
+            {
+                await AddAuthHeaderAsync();
+
+               
+                var url = $"{_baseUrl}/{ApiUrls.Courses}";
+                var response = await _httpClient.GetAsync(url);
+
+               
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    Console.WriteLine("Error: Endpoint not found.");
+                    return null; 
+                }
+
+                response.EnsureSuccessStatusCode();
+
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var courseResponse = JsonConvert.DeserializeObject<CourseResponse>(responseBody);
+
+                // Ensure each course has non-null Description and Image
+                if (courseResponse != null && courseResponse.CourseInfo != null)
+                {
+                    foreach (var course in courseResponse.CourseInfo)
+                    {
+                        // Handle null Description and Image if needed
+                        if (course.Description == null)
+                        {
+                            course.Description = "No description available";
+                        }
+                        if (course.Image == null)
+                        {
+                            course.Image = "https://techmonitor.ai/wp-content/uploads/sites/4/2017/02/shutterstock_552493561.webp"; 
+                        }
+                    }
+                }
+
+                return courseResponse?.CourseInfo;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+      
+        public async Task<List<Subject>> GetSubjectsByCourseAsync(int courseId)
+        {
+            try
+            {
+                await AddAuthHeaderAsync();
+                var url = $"{_baseUrl}SubscriptionCourse/subscriptionSubject-info?courseId={courseId}";
+                var response = await _httpClient.GetAsync(url);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    Console.WriteLine("Error: Endpoint not found.");
+                    return null;
+                }
+
+                response.EnsureSuccessStatusCode();
+
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var subjectsResponse = JsonConvert.DeserializeObject<SubjectsResponse>(responseBody);
+
+                return subjectsResponse.SubjectInfo;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+
+        public async Task<List<Video>> GetVideosBySubjectAsync(int subjectId)
+        {
+            try
+            {
+                await AddAuthHeaderAsync();
+                var url = $"{_baseUrl}SubscriptionCourse/subscriptionVideo-info?subjectId={subjectId}";
+                var response = await _httpClient.GetAsync(url);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    Console.WriteLine("Error: Endpoint not found.");
+                    return null;
+                }
+
+                response.EnsureSuccessStatusCode();
+
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var videosResponse = JsonConvert.DeserializeObject<VideosResponse>(responseBody);
+
+                return videosResponse.VideoInfo;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+
+        }
+        
+
+        public class CourseResponse
+        {
+            [JsonProperty("courseInfo")]
+            public List<Course> CourseInfo { get; set; }
+        }
+        public class SubjectsResponse
+        {
+            [JsonProperty("subjectInfo")]
+            public List<Subject> SubjectInfo { get; set; }
+        }
+        public class VideosResponse
+        {
+            [JsonProperty("videoInfo")]
+            public List<Video> VideoInfo { get; set; }
+        }
+
 
     }
 }

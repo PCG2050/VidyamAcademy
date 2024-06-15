@@ -7,11 +7,11 @@
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:ImageConverter x:Key="ImageConverter" />
+            <converters:ImageUrlConverter x:Key="ImageUrlConverter"/>
         </ResourceDictionary>
     </ContentPage.Resources>
 
     <StackLayout>
-        <!-- Carousel View for rotating images -->
         <CarouselView x:Name="imageCarousel" 
                       HeightRequest="250" 
                       HorizontalOptions="FillAndExpand" 
@@ -31,7 +31,6 @@
         <StackLayout Margin="10,20,0,20">
             <Label Text="Courses We Offer" TextColor="Black" FontAttributes="Bold" FontSize="Title"/>
         </StackLayout>
-        <!-- ScrollView for CollectionView -->
         <ScrollView>
             <CollectionView x:Name="coursesCollectionView"
                             ItemsSource="{Binding Courses}"
@@ -48,15 +47,14 @@
                                 <RowDefinition Height="150" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <Image Source="{Binding ImageFileName, Converter={StaticResource ImageConverter}}"
+                            <!--"{Binding Image, Converter={StaticResource ImageUrlConverter}}"-->
+                            <Image Source="{Binding Image}" 
                                    Aspect="AspectFill"
                                    HeightRequest="150"
                                    WidthRequest="280"
-                                   Grid.Row="0" />
+                                   Grid.Row="0" />  
                             <StackLayout VerticalOptions="End"  
-                                         BackgroundColor="White"
-                                                                                
-                                         
+                                         BackgroundColor="White"                                         
                                          Opacity="0.5"
                                          Grid.Row="1"
                                          Padding="10,10,0,0">

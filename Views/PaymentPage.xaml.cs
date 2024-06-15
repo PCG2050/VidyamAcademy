@@ -1,18 +1,20 @@
-
 using System.Reflection;
 using System.Threading.Tasks;
-
+using VidyamAcademy.Services;
+using VidyamAcademy.ViewModels;
 
 namespace VidyamAcademy.Views
 {
     public partial class PaymentPage : ContentPage
     {
         private readonly Course _course;
+        private readonly ApiService _apiService;
 
-        public PaymentPage(Course course)
+        public PaymentPage(Course course, ApiService apiService)
         {
             InitializeComponent();
             _course = course;
+            _apiService = apiService;
 
             // Call the method to load the payment page with the course details
             LoadPaymentPage();
@@ -24,9 +26,11 @@ namespace VidyamAcademy.Views
             {
                 var username = await SecureStorage.GetAsync("user_username");
                 var email = await SecureStorage.GetAsync("user_email");
-                var phoneNumber = await SecureStorage.GetAsync("user_phonenumber");              
+                var phoneNumber = await SecureStorage.GetAsync("user_phonenumber");
 
-                var webViewContent = await GetHtmlContent(username, email, phoneNumber, _course.Amount, _course.Name);
+                 var amountString = _course.Amount.ToString();
+
+                var webViewContent = await GetHtmlContent(username, email, phoneNumber, amountString, _course.Name);
 
                 PaymentWebView.Source = new HtmlWebViewSource { Html = webViewContent };
             }
@@ -37,7 +41,8 @@ namespace VidyamAcademy.Views
             }
         }
 
-        private async Task<string> GetHtmlContent(string username, string email, string phoneNumber, string amount,string coursename)
+
+        private async Task<string> GetHtmlContent(string username, string email, string phoneNumber, string amount, string coursename)
         {
             if (!decimal.TryParse(amount, out var amountDecimal))
             {
@@ -57,8 +62,9 @@ namespace VidyamAcademy.Views
                                          .Replace("logo_path", "https://vidyamacademy.com/images/final%20logo_page-0001.jpg")
                                          .Replace("{{payingforName}}", coursename);
                 return htmlContent;
-            }            
+            }
         }
+
         private async void OnNavigated(object sender, WebNavigatedEventArgs e)
         {
             if (e.Url.StartsWith("payment-success://"))
@@ -78,7 +84,8 @@ namespace VidyamAcademy.Views
                 await Navigation.PopModalAsync();
                 if (success)
                 {
-                    await Application.Current.MainPage.Navigation.PushAsync(new SubjectsPage(_course.Subjects));
+                    var apiService = DependencyService.Get<ApiService>();
+                    await Application.Current.MainPage.Navigation.PushAsync(new SubjectsPage(apiService,_course.CourseId));
                 }
                 else
                 {

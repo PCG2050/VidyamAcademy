@@ -9,10 +9,21 @@ namespace VidyamAcademy.Models
 {
     public class Subject :INotifyPropertyChanged
     {
-        public string Name { get; set; }
+        [JsonProperty("subjectId")]
+        public int SubjectId { get; set; }
 
+        [JsonProperty("name")]
+        public string Name { get; set; }
+        [JsonProperty("description")]
         public string Description { get; set; }
+        [JsonProperty("amount")]
         public string Amount { get; set; }
+        [JsonProperty("paidUntil")]
+        public DateTime? PaidUntil { get; set; }
+
+        [JsonProperty("fk_CourseId")]
+        public int FK_CourseId { get; set; } 
+
         public List<Video> Videos { get; set; }
 
         public Color BackgroundColor

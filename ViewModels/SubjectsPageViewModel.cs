@@ -1,37 +1,53 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Microsoft.Maui.Controls;
+using VidyamAcademy.Models;
+using VidyamAcademy.Services;
 
 namespace VidyamAcademy.ViewModels
 {
     public class SubjectsPageViewModel : BindableObject
     {
         private Subject _previousSelectedSubject;
+        private readonly ApiService _apiService;
 
         public ObservableCollection<Subject> Subjects { get; set; }
 
-        // Parameterless constructor for XAML
+        public SubjectsPageViewModel(ApiService apiService, int courseId)
+        {
+            _apiService = apiService;
+            Subjects = new ObservableCollection<Subject>();
+            LoadSubjects(courseId);
+        }
+
         public SubjectsPageViewModel()
         {
             Subjects = new ObservableCollection<Subject>();
         }
 
-        public SubjectsPageViewModel(List<Subject> subjects)
+        private async void LoadSubjects(int courseId)
         {
-            Subjects = new ObservableCollection<Subject>(subjects);
+            var subjects = await _apiService.GetSubjectsByCourseAsync(courseId);
+            if (subjects != null)
+            {
+                foreach (var subject in subjects)
+                {
+                    Subjects.Add(subject);
+                }
+            }
         }
 
         public ICommand SubjectSelectedCommand => new Command<Subject>((selectedSubject) =>
         {
-            // Toggle the selected item's expanded state
+            if (selectedSubject == null)
+                return;
+
             if (selectedSubject.IsExpanded)
             {
                 selectedSubject.IsExpanded = false;
             }
             else
             {
-                // Collapse the previously selected item, if any
                 if (_previousSelectedSubject != null && _previousSelectedSubject != selectedSubject)
                 {
                     _previousSelectedSubject.IsExpanded = false;
@@ -39,17 +55,14 @@ namespace VidyamAcademy.ViewModels
                 selectedSubject.IsExpanded = true;
             }
 
-            // Update the previous selected item reference
             _previousSelectedSubject = selectedSubject.IsExpanded ? selectedSubject : null;
-
-            // Notify that the collection has been updated to refresh the ListView
             OnPropertyChanged(nameof(Subjects));
         });
 
         public ICommand GoToVideosCommand => new Command<Subject>(async (subject) =>
         {
             var navigation = Application.Current.MainPage.Navigation;
-            await navigation.PushAsync(new VideosPage(subject));
+            await navigation.PushAsync(new VideosPage(_apiService, subject));
         });
 
         public ICommand PayNowCommand => new Command<Subject>(async (subject) =>
