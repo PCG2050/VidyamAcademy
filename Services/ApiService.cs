@@ -29,7 +29,17 @@ namespace VidyamAcademy.Services
             {
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
-        }       
+        }
+
+        public void ClearAuthHeader()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+        }
+        public void ClearSessionData()
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = null;
+        }
+
 
         public async Task<T> GetAsync<T>(string endpoint)
         {

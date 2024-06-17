@@ -1,6 +1,5 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Newtonsoft.Json;
 using System;
 using System.Threading.Tasks;
 using VidyamAcademy.Models;
@@ -38,7 +37,15 @@ namespace VidyamAcademy.ViewModels.Startup
 
                     if (loginResponse != null && !string.IsNullOrEmpty(loginResponse.Token))
                     {
+                        ClearPreviousLoginData();
                         await SaveLoginDataAsync(loginResponse);
+
+                        // Ensure new user data is loaded
+                        var dashboardViewModel = App.Services.GetService<DashboardPageViewModel>();
+                        dashboardViewModel.LoadCourseData();
+
+                        // Update FlyoutHeader
+                        AppShell.Current.FlyoutHeader = new FlyoutHeaderControl(_apiService);
 
                         await Shell.Current.GoToAsync($"//{nameof(DashboardPage)}");
                     }
@@ -61,22 +68,27 @@ namespace VidyamAcademy.ViewModels.Startup
             }
         }
 
+        private void ClearPreviousLoginData()
+        {
+            SecureStorage.RemoveAll();
+            Preferences.Clear();
+            _apiService.ClearSessionData();
+        }
+
         private async Task SaveLoginDataAsync(LoginResponseDTO loginResponse)
         {
             try
             {
                 await SecureStorage.SetAsync("auth_token", loginResponse.Token);
                 await SecureStorage.SetAsync("refresh_token", loginResponse.RefreshToken);
-                await SecureStorage.SetAsync("user_id",loginResponse.UserDetail.Id.ToString());
-                await SecureStorage.SetAsync("user_name",loginResponse.UserDetail.UserName);
+                await SecureStorage.SetAsync("user_id", loginResponse.UserDetail.Id.ToString());
+                await SecureStorage.SetAsync("user_name", loginResponse.UserDetail.UserName);
                 await SecureStorage.SetAsync("user_phonenumber", loginResponse.UserDetail.Phonenumber);
-                await SecureStorage.SetAsync("user_email", loginResponse.UserDetail.Email);                
-
+                await SecureStorage.SetAsync("user_email", loginResponse.UserDetail.Email);
 
                 Preferences.Set("user_id", loginResponse.UserDetail.Id);
                 Preferences.Set("user_name", loginResponse.UserDetail.UserName);
                 Preferences.Set("user_role", loginResponse.UserDetail.Role);
-               
             }
             catch (Exception ex)
             {

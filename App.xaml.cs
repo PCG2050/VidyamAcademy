@@ -1,4 +1,5 @@
-﻿using Microsoft.Maui.Platform;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Maui.Platform;
 using System.Globalization;
 using VidyamAcademy.Handlers;
 using VidyamAcademy.Models;
@@ -7,13 +8,17 @@ namespace VidyamAcademy
 {
     public partial class App : Application
     {
-        
-            public static UserDetail UserDetails;
-            public App()
-            {
+        public static IServiceProvider Services { get; private set; }
+
+        public static UserDetail UserDetails;
+            public App(IServiceProvider serviceProvider)
+        {
                 InitializeComponent();
 
-                Thread.CurrentThread.CurrentCulture = new CultureInfo("en-IN");
+               Services = serviceProvider;
+
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo("en-IN");
             // Borderless Entry
             Microsoft.Maui.Handlers.EntryHandler.Mapper.AppendToMapping(nameof(BorderlessEntry), (handler, view) =>
                 {
@@ -31,3 +36,8 @@ namespace VidyamAcademy
         
     }
 }
+
+
+
+
+

@@ -1,6 +1,10 @@
-﻿
-
-using VidyamAcademy;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Maui;
+using Microsoft.Maui.Controls.Hosting;
+using Microsoft.Maui.Hosting;
+using VidyamAcademy.Services;
+using VidyamAcademy.ViewModels;
+using VidyamAcademy.Views;
 
 namespace VidyamAcademy
 {
@@ -17,7 +21,8 @@ namespace VidyamAcademy
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
                 });
-            //Views
+
+            // Register Views
             builder.Services.AddSingleton<LoginPage>();
             builder.Services.AddSingleton<DashboardPage>();
             builder.Services.AddSingleton<LoadingPage>();
@@ -26,28 +31,30 @@ namespace VidyamAcademy
             builder.Services.AddTransient<SignupPage>();
             builder.Services.AddTransient<ForgotPasswordPage>();
 
-
-
-            //ViewModel
+            // Register ViewModels
             builder.Services.AddSingleton<LoginPageViewModel>();
             builder.Services.AddSingleton<DashboardPageViewModel>();
             builder.Services.AddSingleton<LoadingPageViewModel>();
             builder.Services.AddTransient<VideosPageViewModel>();
+            builder.Services.AddTransient<AppShellViewModel>();
 
-            // Services
+            // Register Services
             builder.Services.AddSingleton<ApiService>(sp =>
             {
                 var httpClient = new HttpClient();
                 var baseUrl = "https://debugvidyam.azurewebsites.net/api/";
-                var blobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=vidyamblob;AccountKey=63229QeKJbgOHpQyV6Mf4m+kCURgq+SRK/ppz4MI6b5vNJcTW1xGdwPZm5Tk+3Y/F4cJZGHIgRiM+AStmcCQ6g==;EndpointSuffix=core.windows.net";
+                var blobStorageConnectionString = "YourBlobStorageConnectionString";
 
                 return new ApiService(httpClient, baseUrl, blobStorageConnectionString);
             });
+
 #if DEBUG
             builder.Logging.AddDebug();
 #endif
 
-            return builder.Build();
+            var mauiApp = builder.Build();
+
+            return mauiApp;
         }
     }
 }

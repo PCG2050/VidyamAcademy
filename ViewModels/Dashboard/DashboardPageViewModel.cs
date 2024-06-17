@@ -1,15 +1,13 @@
-﻿using System.Net.Http;
-using System.Net.Http.Json;
-using Microsoft.Maui.Controls;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using Microsoft.Maui.Controls;
+using VidyamAcademy.Services;
 
 namespace VidyamAcademy.ViewModels.Dashboard
 {
     public class DashboardPageViewModel : BindableObject
     {
         private readonly ApiService _apiService;
-
         public ObservableCollection<Course> Courses { get; set; }
         public ObservableCollection<ImageItem> ImageItems { get; set; }
 
@@ -17,11 +15,11 @@ namespace VidyamAcademy.ViewModels.Dashboard
         {
             _apiService = apiService;
             InitializeImages();
-            AppShell.Current.FlyoutHeader = new FlyoutHeaderControl(apiService);
+            
             LoadCourseData();
         }
 
-        private async void LoadCourseData()
+        public async void LoadCourseData()
         {
             var courseDetails = await _apiService.GetCourseDetailsAsync();
             Courses = new ObservableCollection<Course>(courseDetails);

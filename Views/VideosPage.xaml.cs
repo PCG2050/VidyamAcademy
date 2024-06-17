@@ -1,3 +1,4 @@
+using Microsoft.Maui.ApplicationModel;
 namespace VidyamAcademy.Views
 {
     public partial class VideosPage : ContentPage
@@ -25,6 +26,8 @@ namespace VidyamAcademy.Views
             {
                 videosCollectionView.ItemsSource = viewModel.Videos;
             }
+          
+
         }
 
         protected override void OnDisappearing()
@@ -37,37 +40,37 @@ namespace VidyamAcademy.Views
         {
             if (sender is ImageButton imageButton && imageButton.CommandParameter is string videoUrl)
             {
-                var video = (Video)imageButton.BindingContext; // Assuming Video object is BindingContext
+                var video = (Video)imageButton.BindingContext; 
                 if (video.IsFree || !string.IsNullOrEmpty(video.SasToken))
                 {
-                    // Highlight the current button
+                    
                     HighlightButton(imageButton);
 
-                    // Use EffectiveUrl for the MediaElement source
+                    
                     mediaElement.IsVisible = true;
                     mediaElement.Source = new Uri(video.EffectiveUrl);
                     mediaElement.Play();
+                    
                 }
                 else
-                {
-                    // Display alert and prevent playback (if not free and no SAS token)
+                {                   
                     DisplayAlert("Pay Now", $"You need to pay to access this video. Pay now for subject: {((VideosPageViewModel)BindingContext).SelectedSubject.Name} to watch this video", "OK");
                 }
             }
+
+
         }
 
         private void HighlightButton(ImageButton currentButton)
         {
-            // Reset the opacity of the previously highlighted button
             if (_previousButton != null)
             {
                 _previousButton.Opacity = 1.0;
             }
 
-            // Highlight the current button by reducing its opacity
+           
             currentButton.Opacity = 0.5;
 
-            // Store the current button as the previous button for future reference
             _previousButton = currentButton;
         }
 
