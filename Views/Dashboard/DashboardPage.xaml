@@ -17,7 +17,7 @@
                       HorizontalOptions="FillAndExpand" 
                       IndicatorView="indicatorView"
                       Loop="True"
-                      ItemsSource="{Binding ImageItems}" Margin="0,30,0,0">
+                      ItemsSource="{Binding ImageItems}" Margin="0,15,0,0">
             <CarouselView.ItemsLayout>
                 <LinearItemsLayout Orientation="Horizontal" />
             </CarouselView.ItemsLayout>
@@ -32,11 +32,10 @@
             <Label Text="Courses We Offer" TextColor="Black" FontAttributes="Bold" FontSize="Title"/>
         </StackLayout>
 
-        <!-- Add SearchBar -->
-        <SearchBar x:Name="courseSearchBar" 
-                   Placeholder="Search Courses" 
-                   SearchButtonPressed="OnSearchButtonPressed" 
-                   TextChanged="OnSearchTextChanged" />
+        <!-- SearchBar added -->
+        <SearchBar Placeholder="Search courses..." 
+                   TextChanged="OnSearchTextChanged"
+                   SearchButtonPressed="OnSearchButtonPressed" Margin="0,0,0,15"/>
 
         <ScrollView>
             <CollectionView x:Name="coursesCollectionView"

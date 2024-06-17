@@ -10,11 +10,13 @@
         <Label Text="{Binding Description}" FontSize="18" Margin="0,0,0,20" />
         <Label Text="{Binding Amount, StringFormat='₹{0:0.00}'}" FontSize="18" FontAttributes="Bold" Margin="0,0,0,20" />
           
-            <Label Text="{Binding PaidUntil, StringFormat='Valid Until: {0:dd/MM/yyyy hh/mm/ss}'}" 
+            <Label Text="{Binding PaidUntil, StringFormat='Valid Until: {0:dd/MM/yyyy hh/mm tt}'}" 
                    FontSize="18" 
                    FontAttributes="Bold" 
                    Margin="0,0,0,20" 
                    IsVisible="{Binding IsValidUntilVisible}" />
+
+         
 
 
             <Button Text="View Subjects" Command="{Binding ViewSubjectsCommand}" />

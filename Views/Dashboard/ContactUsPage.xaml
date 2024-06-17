@@ -3,5 +3,5 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="VidyamAcademy.Views.Dashboard.ContactUsPage"
              Title="ContactUsPage">
-    <WebView Source="https://vidyamacademy.com/contact/contact.html" Navigated="WebView_Navigated"/>
+    <WebView x:Name="webview" Source="https://vidyamacademy.com/contact/contact.html" Navigated="WebView_Navigated" Navigating="WebView_Navigating"/>
 </ContentPage>

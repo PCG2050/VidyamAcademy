@@ -1,7 +1,6 @@
 using Microsoft.Maui.Controls;
 using System;
 using System.Linq;
-using System.Timers;
 using VidyamAcademy.Models;
 using VidyamAcademy.Services;
 using VidyamAcademy.ViewModels.Dashboard;
@@ -10,8 +9,6 @@ namespace VidyamAcademy.Views.Dashboard
 {
     public partial class DashboardPage : ContentPage
     {
-        private System.Timers.Timer _carouselTimer;
-        private System.Timers.Timer _collectionViewTimer;
         private readonly ApiService _apiService;
 
         public DashboardPage(DashboardPageViewModel viewModel, ApiService apiService)
@@ -20,17 +17,17 @@ namespace VidyamAcademy.Views.Dashboard
             BindingContext = viewModel;
             _apiService = apiService;
             StartCarousel();
-            StartCollectionViewAutoScroll();
         }
 
         private void StartCarousel()
         {
-            _carouselTimer = new System.Timers.Timer(2000);
+            var _carouselTimer = new System.Timers.Timer(2000);
             _carouselTimer.Elapsed += (sender, e) =>
             {
                 Dispatcher.Dispatch(() =>
                 {
-                    if (imageCarousel.Position == ((DashboardPageViewModel)BindingContext).ImageItems.Count - 1)
+                    var viewModel = (DashboardPageViewModel)BindingContext;
+                    if (imageCarousel.Position == viewModel.ImageItems.Count - 1)
                     {
                         imageCarousel.Position = 0;
                     }
@@ -43,26 +40,10 @@ namespace VidyamAcademy.Views.Dashboard
             _carouselTimer.Start();
         }
 
-        private void StartCollectionViewAutoScroll()
-        {
-            _collectionViewTimer = new System.Timers.Timer(3000);
-            _collectionViewTimer.Elapsed += (sender, e) =>
-            {
-                Dispatcher.Dispatch(() =>
-                {
-                    var viewModel = (DashboardPageViewModel)BindingContext;
-                    var nextIndex = (coursesCollectionView.ItemsSource.Cast<object>().ToList().IndexOf(coursesCollectionView.SelectedItem) + 1) % viewModel.Courses.Count;
-                    coursesCollectionView.ScrollTo(nextIndex);
-                });
-            };
-            _collectionViewTimer.Start();
-        }
-
         protected override void OnDisappearing()
         {
             base.OnDisappearing();
-            _carouselTimer?.Stop();
-            _collectionViewTimer?.Stop();
+            // Stop the carousel timer if needed
         }
 
         private async void OnCourseSelected(object sender, SelectionChangedEventArgs e)
