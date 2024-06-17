@@ -14,8 +14,7 @@ namespace VidyamAcademy.ViewModels.Dashboard
         public DashboardPageViewModel(ApiService apiService)
         {
             _apiService = apiService;
-            InitializeImages();
-            
+            InitializeImages();            
             LoadCourseData();
         }
 

@@ -1,4 +1,12 @@
 using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Controls;
+using System;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using VidyamAcademy.Models;
+using VidyamAcademy.Services;
+using VidyamAcademy.ViewModels;
+
 namespace VidyamAcademy.Views
 {
     public partial class VideosPage : ContentPage
@@ -26,8 +34,6 @@ namespace VidyamAcademy.Views
             {
                 videosCollectionView.ItemsSource = viewModel.Videos;
             }
-          
-
         }
 
         protected override void OnDisappearing()
@@ -38,27 +44,27 @@ namespace VidyamAcademy.Views
 
         private void OnThumbnailTapped(object sender, EventArgs e)
         {
-            if (sender is ImageButton imageButton && imageButton.CommandParameter is string videoUrl)
+            if (sender is ImageButton imageButton)
             {
                 var video = (Video)imageButton.BindingContext; 
+                if (video == null)
+                {
+                    return; 
+                }
+
                 if (video.IsFree || !string.IsNullOrEmpty(video.SasToken))
                 {
-                    
                     HighlightButton(imageButton);
 
-                    
                     mediaElement.IsVisible = true;
                     mediaElement.Source = new Uri(video.EffectiveUrl);
                     mediaElement.Play();
-                    
                 }
                 else
-                {                   
+                {
                     DisplayAlert("Pay Now", $"You need to pay to access this video. Pay now for subject: {((VideosPageViewModel)BindingContext).SelectedSubject.Name} to watch this video", "OK");
                 }
             }
-
-
         }
 
         private void HighlightButton(ImageButton currentButton)
@@ -68,7 +74,6 @@ namespace VidyamAcademy.Views
                 _previousButton.Opacity = 1.0;
             }
 
-           
             currentButton.Opacity = 0.5;
 
             _previousButton = currentButton;
