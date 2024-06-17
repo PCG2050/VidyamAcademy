@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using VidyamAcademy.Models;
@@ -16,6 +17,8 @@ namespace VidyamAcademy.ViewModels
         [ObservableProperty]
         private ObservableCollection<Video> videos;
 
+        private ObservableCollection<Video> _allVideos;
+
         private readonly ApiService _apiService;
         public Subject SelectedSubject { get; }
 
@@ -25,8 +28,9 @@ namespace VidyamAcademy.ViewModels
             SelectedSubject = selectedSubject ?? throw new ArgumentNullException(nameof(selectedSubject));
 
             Title = selectedSubject.Name;
-            Videos = new ObservableCollection<Video>(selectedSubject.Videos ?? new List<Video>());
-            LoadVideosAsync();
+            _allVideos = new ObservableCollection<Video>(selectedSubject.Videos ?? new List<Video>());
+            Videos = new ObservableCollection<Video>(_allVideos);
+            LoadVideosCommand = new AsyncRelayCommand(LoadVideosAsync);
         }
 
         private async Task LoadVideosAsync()
@@ -34,18 +38,37 @@ namespace VidyamAcademy.ViewModels
             var videos = await _apiService.GetVideosBySubjectAsync(SelectedSubject.SubjectId);
             if (videos != null)
             {
-                Videos.Clear();
+                _allVideos.Clear();
                 foreach (var video in videos)
                 {
-                    Videos.Add(video);
+                    _allVideos.Add(video);
                 }
+                Videos = new ObservableCollection<Video>(_allVideos);
+                OnPropertyChanged(nameof(Videos));
             }
+        }
+
+        public ICommand LoadVideosCommand { get; }
+
+        public void SearchVideos(string searchText)
+        {
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                Videos = new ObservableCollection<Video>(_allVideos);
+            }
+            else
+            {
+                var filteredVideos = _allVideos.Where(v => v.Title.Contains(searchText, StringComparison.OrdinalIgnoreCase)).ToList();
+                Videos = new ObservableCollection<Video>(filteredVideos);
+            }
+            OnPropertyChanged(nameof(Videos));
         }
 
         public ICommand PayNowCommand => new Command(async () =>
         {
             await Application.Current.MainPage.Navigation.PushModalAsync(new SubjectPaymentPage(SelectedSubject));
         });
+
         public bool IsPayNowButtonEnabled => SelectedSubject.IsPayNowButtonEnabled;
     }
 }

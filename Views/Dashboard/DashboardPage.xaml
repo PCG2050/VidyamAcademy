@@ -31,6 +31,13 @@
         <StackLayout Margin="10,20,0,20">
             <Label Text="Courses We Offer" TextColor="Black" FontAttributes="Bold" FontSize="Title"/>
         </StackLayout>
+
+        <!-- Add SearchBar -->
+        <SearchBar x:Name="courseSearchBar" 
+                   Placeholder="Search Courses" 
+                   SearchButtonPressed="OnSearchButtonPressed" 
+                   TextChanged="OnSearchTextChanged" />
+
         <ScrollView>
             <CollectionView x:Name="coursesCollectionView"
                             ItemsSource="{Binding Courses}"
@@ -47,12 +54,11 @@
                                 <RowDefinition Height="150" />
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
-                            <!--"{Binding Image, Converter={StaticResource ImageUrlConverter}}"-->
                             <Image Source="{Binding Image}" 
                                    Aspect="AspectFill"
                                    HeightRequest="150"
                                    WidthRequest="280"
-                                   Grid.Row="0" />  
+                                   Grid.Row="0" />
                             <StackLayout VerticalOptions="End"  
                                          BackgroundColor="White"                                         
                                          Opacity="0.5"

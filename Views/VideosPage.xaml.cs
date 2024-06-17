@@ -1,8 +1,8 @@
-using Microsoft.Maui.ApplicationModel;
+using CommunityToolkit.Maui.Views;
 using Microsoft.Maui.Controls;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 using VidyamAcademy.Models;
 using VidyamAcademy.Services;
 using VidyamAcademy.ViewModels;
@@ -11,9 +11,7 @@ namespace VidyamAcademy.Views
 {
     public partial class VideosPage : ContentPage
     {
-        public List<Video> Videos { get; private set; }
         private ImageButton _previousButton;
-
         public VideosPage(ApiService apiService, Subject selectedSubject)
         {
             InitializeComponent();
@@ -32,7 +30,7 @@ namespace VidyamAcademy.Views
             base.OnAppearing();
             if (BindingContext is VideosPageViewModel viewModel)
             {
-                videosCollectionView.ItemsSource = viewModel.Videos;
+                viewModel.LoadVideosCommand.Execute(null);
             }
         }
 
@@ -46,10 +44,10 @@ namespace VidyamAcademy.Views
         {
             if (sender is ImageButton imageButton)
             {
-                var video = (Video)imageButton.BindingContext; 
+                var video = (Video)imageButton.BindingContext;
                 if (video == null)
                 {
-                    return; 
+                    return;
                 }
 
                 if (video.IsFree || !string.IsNullOrEmpty(video.SasToken))
@@ -87,6 +85,20 @@ namespace VidyamAcademy.Views
                 button.Scale = 0.8;
                 Task.Delay(200).ContinueWith(_ => button.Scale = 1.0, TaskScheduler.FromCurrentSynchronizationContext());
             }
+        }
+
+        private void OnSearchButtonPressed(object sender, EventArgs e)
+        {
+            var searchBar = sender as SearchBar;
+            if (searchBar != null)
+            {
+                ((VideosPageViewModel)BindingContext).SearchVideos(searchBar.Text);
+            }
+        }
+
+        private void OnSearchTextChanged(object sender, TextChangedEventArgs e)
+        {
+            ((VideosPageViewModel)BindingContext).SearchVideos(e.NewTextValue);
         }
     }
 }
