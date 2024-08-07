@@ -68,7 +68,7 @@ namespace VidyamAcademy.ViewModels
         public ICommand PayNowCommand => new Command<Subject>(async (subject) =>
         {
             var navigation = Application.Current.MainPage.Navigation;
-            await navigation.PushModalAsync(new SubjectPaymentPage(subject));
+            await navigation.PushModalAsync(new SubjectPaymentPage(subject,_apiService));
         });
     }
 }

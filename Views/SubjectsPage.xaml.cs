@@ -29,6 +29,8 @@ namespace VidyamAcademy.Views
 
             // Reset the selected item
             ((ListView)sender).SelectedItem = null;
+
+           
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.InteropServices;
@@ -30,6 +31,10 @@ namespace VidyamAcademy.Services
                 _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
             }
         }
+        public void SetAuthorizationHeader(string token)
+        {
+            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        }
 
         public void ClearAuthHeader()
         {
@@ -59,6 +64,7 @@ namespace VidyamAcademy.Services
                 throw ex;
             }
         }
+      
 
         public async Task<T> PostAsync<T>(string endpoint, object data)
         {
@@ -139,6 +145,74 @@ namespace VidyamAcademy.Services
                 throw ex;
             }
         }
+        
+
+
+        public async Task<bool> RefreshTokenAsync()
+        {
+            var refreshToken = await SecureStorage.GetAsync("refresh_token");
+           
+            if (string.IsNullOrEmpty(refreshToken))
+            {
+                return false;
+            }
+            var requestBody = new
+            {
+                RefreshToken = refreshToken
+            };
+            var json = JsonConvert.SerializeObject(requestBody);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            
+            var response = await _httpClient.PostAsync($"{_baseUrl}/{ApiUrls.RefreshToken}", content);
+            if (response.IsSuccessStatusCode)
+            {
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var loginResponse = JsonConvert.DeserializeObject<LoginResponseDTO>(responseBody);
+
+                if (string.IsNullOrEmpty(loginResponse.Token))
+                {
+                    await SaveTokensAsync(loginResponse);
+                    return true;
+                }
+
+            }
+            return false;
+        }
+        public async Task<bool> EnsureTokenIsValidAsync()
+        {
+            var token = await SecureStorage.GetAsync("auth_token");
+            if (string.IsNullOrEmpty(token))
+            {
+                return false;
+            }
+
+            // Check if token is expired and refresh if necessary
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(token);
+            if (jwtToken.ValidTo <= DateTime.UtcNow)
+            {
+                return await RefreshTokenAsync();
+            }
+            return true;
+        }
+
+        public bool IsTokenExpired()
+        {
+            var token = SecureStorage.GetAsync("auth_token").Result;
+            if(string.IsNullOrEmpty(token))
+            {
+                return true;
+            }
+            var jwtToken = new System.IdentityModel.Tokens.Jwt.JwtSecurityToken(token);
+            return jwtToken.ValidTo < DateTime.UtcNow;
+        }
+
+        private async Task SaveTokensAsync(LoginResponseDTO loginResponse)
+        {
+            await SecureStorage.SetAsync("auth_token", loginResponse.Token);
+            await SecureStorage.SetAsync("refresh_token", loginResponse.RefreshToken);
+        }
         public async Task<bool> SignUpAsync(SignUpDTO signupData)
         {
             try
@@ -174,6 +248,35 @@ namespace VidyamAcademy.Services
             {
                 // Handle exception
                 throw ex;
+            }
+        }
+
+
+        public async Task<OrderResult> CreateRazorpayOrderAsync(RazorpayOrderRequestDTO request)
+        {
+            try
+            {
+                await AddAuthHeaderAsync();
+
+                var json = JsonConvert.SerializeObject(request);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var response = await _httpClient.PostAsync($"{_baseUrl}/{ApiUrls.CreateOrder}", content);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    throw new HttpRequestException($"Request failed with status code {response.StatusCode}: {errorContent}");
+                }
+
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var orderResult = JsonConvert.DeserializeObject<OrderResult>(responseBody);
+
+                return orderResult;
+            }
+            catch (Exception ex)
+            {
+                // Log or handle the exception as needed
+                throw new Exception("An error occurred while creating the Razorpay order.", ex);
             }
         }
         public async Task<string> UploadImageToBlobAsync(string fileName, Stream stream, string contentType)
@@ -372,6 +475,8 @@ namespace VidyamAcademy.Services
                 return new List<Video>();
             }
         }
+
+
 
 
         public class CourseResponse

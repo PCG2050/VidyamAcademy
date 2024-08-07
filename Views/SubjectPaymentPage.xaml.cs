@@ -12,10 +12,11 @@ namespace VidyamAcademy.Views
         private readonly Subject _subject;
         private readonly ApiService _apiService;
 
-        public SubjectPaymentPage(Subject subject)
+        public SubjectPaymentPage(Subject subject, ApiService apiService)
         {
             InitializeComponent();
             _subject = subject;
+            _apiService = apiService;
             LoadPaymentPage();
         }
 
@@ -23,27 +24,47 @@ namespace VidyamAcademy.Views
         {
             try
             {
-                var username = await SecureStorage.GetAsync("user_username");
+                var username = await SecureStorage.GetAsync("user_name");
                 var email = await SecureStorage.GetAsync("user_email");
                 var phoneNumber = await SecureStorage.GetAsync("user_phonenumber");
+                var userIdString = await SecureStorage.GetAsync("user_id");
 
-                var webViewContent = await GetHtmlContent(username, email, phoneNumber, _subject.Amount.ToString(), _subject.Name);
+                if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(phoneNumber) || string.IsNullOrEmpty(userIdString))
+                {
+                    await DisplayAlert("Error", "Failed to retrieve user details. Please try again.", "OK");
+                    return;
+                }
+
+                int userId = Convert.ToInt32(userIdString);
+                //create order result 
+                var orderResult = await _apiService.CreateRazorpayOrderAsync(new RazorpayOrderRequestDTO
+                {
+                    Amount = Convert.ToInt32(_subject.Amount),
+                    SubjectId = _subject.SubjectId,
+                    UserId = userId,
+                    Currency = "INR",
+                    MobilePhone = phoneNumber
+                });
+
+                if (orderResult == null || String.IsNullOrEmpty(orderResult.OrderId))
+                {
+                    await DisplayAlert("Error", "Failed to create razorpay order.Please try again", "OK");
+                }
+
+                var amountString = (_subject.Amount * 100 ).ToString();               
+
+                var webViewContent = await GetHtmlContent(username, email, phoneNumber, amountString, _subject.Name, orderResult.OrderId);
                 PaymentWebView.Source = new HtmlWebViewSource { Html = webViewContent };
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("Error", "Failed to load payment details. Please try again.", "OK");
+                await DisplayAlert("Error", $"Failed to load payment details. Please try again. Error:{ex.Message}", "OK");
             }
         }
 
-        private async Task<string> GetHtmlContent(string username, string email, string phoneNumber, string amount, string subjectname)
+        private async Task<string> GetHtmlContent(string username, string email, string phoneNumber, string amount, string subjectname, string orderId)
         {
-            if (!decimal.TryParse(amount, out var amountDecimal))
-            {
-                throw new ArgumentException("Invalid amount format");
-            }
-
-            var amountInSubunits = (amountDecimal * 100).ToString("F0");
+         
             var assembly = Assembly.GetExecutingAssembly();
             using (var stream = assembly.GetManifestResourceStream("VidyamAcademy.Resources.Raw.payment.html"))
             using (var reader = new StreamReader(stream))
@@ -52,7 +73,8 @@ namespace VidyamAcademy.Views
                 htmlContent = htmlContent.Replace("{{name}}", username)
                                          .Replace("{{email}}", email)
                                          .Replace("{{contact}}", phoneNumber)
-                                         .Replace("{{amount}}", amountInSubunits)
+                                         .Replace("{{amount}}", amount)
+                                         .Replace("{{orderId}}", orderId)
                                          .Replace("logo_path", "https://vidyamacademy.com/images/final%20logo_page-0001.jpg")
                                          .Replace("{{payingforName}}", subjectname);
                 return htmlContent;
@@ -79,6 +101,7 @@ namespace VidyamAcademy.Views
                 await Navigation.PopModalAsync();
                 if (success)
                 {
+                    //var apiservice = DependencyService.Get<ApiService>();
                     await Application.Current.MainPage.Navigation.PushAsync(new VideosPage(_apiService, _subject));
                 }
                 else

@@ -33,7 +33,10 @@ namespace VidyamAcademy.Constants
         //course
         public const string Courses = "SubscriptionCourse/subscriptionCourse-info";
 
-        
+        //Order
+        public const string CreateOrder = "Orders/CreateOrderAsync";
+
+
         #endregion
     }
 }

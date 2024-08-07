@@ -23,10 +23,19 @@ namespace VidyamAcademy.ViewModels.Dashboard
 
         public async void LoadCourseData()
         {
-            var courseDetails = await _apiService.GetCourseDetailsAsync();
-            _allCourses = new ObservableCollection<Course>(courseDetails);
-            Courses = new ObservableCollection<Course>(_allCourses);
-            OnPropertyChanged(nameof(Courses));
+            if (await _apiService.EnsureTokenIsValidAsync())
+            {
+                var courseDetails = await _apiService.GetCourseDetailsAsync();
+                _allCourses = new ObservableCollection<Course>(courseDetails);
+                Courses = new ObservableCollection<Course>(_allCourses);
+                OnPropertyChanged(nameof(Courses));
+            }
+            else
+            {
+                await Application.Current.MainPage.DisplayAlert("SessionExpired", "Your Session has Expired.", "OK");
+                await Shell.Current
+                    .GoToAsync("//LoginPage");
+            }
         }
 
         private void InitializeImages()

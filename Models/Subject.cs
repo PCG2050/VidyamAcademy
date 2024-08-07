@@ -17,7 +17,7 @@ namespace VidyamAcademy.Models
         [JsonProperty("description")]
         public string Description { get; set; }
         [JsonProperty("amount")]
-        public string Amount { get; set; }
+        public decimal Amount { get; set; }
         [JsonProperty("paidUntil")]
         public DateTime? PaidUntil { get; set; }
 

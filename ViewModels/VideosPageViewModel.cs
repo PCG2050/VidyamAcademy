@@ -66,7 +66,7 @@ namespace VidyamAcademy.ViewModels
 
         public ICommand PayNowCommand => new Command(async () =>
         {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new SubjectPaymentPage(SelectedSubject));
+            await Application.Current.MainPage.Navigation.PushModalAsync(new SubjectPaymentPage(SelectedSubject, _apiService));
         });
 
         public bool IsPayNowButtonEnabled => SelectedSubject.IsPayNowButtonEnabled;

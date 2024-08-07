@@ -95,5 +95,6 @@ namespace VidyamAcademy.ViewModels.Startup
                 await Application.Current.MainPage.DisplayAlert("Error", $"Error saving login data: {ex.Message}", "OK");
             }
         }
+     
     }
 }

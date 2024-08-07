@@ -4,18 +4,18 @@
     <title>Razorpay Payment</title>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
-        function pay(name, email, contact, amount,payingforName) {
+        function pay(name, email, contact, amount, payingforName, orderId) {
             var options = {
-                "key": "rzp_test_4u9nDtW9CbhyE3",
-                "amount": amount, 
+                "key": "rzp_test_6GNZpU9uqIj2C3",
+                "amount": amount,
                 "currency": "INR",
                 "name": "Vidyam Academy",
                 "description": payingforName,
-                "image": "logo_path", 
+                "image": "logo_path",
+                "order_id": orderId, // Add the order ID here
                 "handler": function (response) {
                     alert("Payment successful! Payment ID: " + response.razorpay_payment_id);
                     window.location.href = "payment-success://" + response.razorpay_payment_id;
-
                 },
                 "prefill": {
                     "name": name,
@@ -33,7 +33,6 @@
             rzp1.on('payment.failed', function (response) {
                 alert("Payment failed: " + response.error.description);
                 window.location.href = "payment-failure://" + response.error.description;
-
             });
             rzp1.open();
         }
@@ -44,7 +43,8 @@
             var contact = '{{contact}}';
             var amount = '{{amount}}';
             var payingforName = '{{payingforName}}';
-            pay(name, email, contact, amount, payingforName);
+            var orderId = '{{orderId}}';
+            pay(name, email, contact, amount, payingforName, orderId);
         }
     </script>
 </head>
