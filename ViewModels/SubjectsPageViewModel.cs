@@ -6,27 +6,37 @@ using VidyamAcademy.Services;
 
 namespace VidyamAcademy.ViewModels
 {
-    public class SubjectsPageViewModel : BindableObject
+    public class SubjectsPageViewModel : BindableObject,IRecipient<PaymnetSuccessfulMessage>
     {
         private Subject _previousSelectedSubject;
         private readonly ApiService _apiService;
+        private readonly int _courseId;
 
         public ObservableCollection<Subject> Subjects { get; set; }
 
         public SubjectsPageViewModel(ApiService apiService, int courseId)
         {
             _apiService = apiService;
+            _courseId = courseId;
             Subjects = new ObservableCollection<Subject>();
             LoadSubjects(courseId);
+
+            //Register to receive messages
+            //WeakReferenceMessenger.Default.Register<PaymnetSuccessfulMessage>(this, (r, m) =>
+            //{
+            //    LoadSubjects(_courseId);
+            //});
+            WeakReferenceMessenger.Default.Register<PaymnetSuccessfulMessage>(this);
         }
 
-        public SubjectsPageViewModel()
-        {
-            Subjects = new ObservableCollection<Subject>();
-        }
+        //public SubjectsPageViewModel()
+        //{
+        //    Subjects = new ObservableCollection<Subject>();
+        //}
 
         private async void LoadSubjects(int courseId)
         {
+            Subjects.Clear();
             var subjects = await _apiService.GetSubjectsByCourseAsync(courseId);
             if (subjects != null)
             {
@@ -70,5 +80,16 @@ namespace VidyamAcademy.ViewModels
             var navigation = Application.Current.MainPage.Navigation;
             await navigation.PushModalAsync(new SubjectPaymentPage(subject,_apiService));
         });
+        public void Receive(PaymnetSuccessfulMessage message)
+        {
+            //refresh subjects when a payemnt is successful
+            LoadSubjects(_courseId);
+        }
+
+        ~SubjectsPageViewModel()
+        {
+            //unregister when viewmodel is disposed
+            WeakReferenceMessenger.Default.Unregister<PaymnetSuccessfulMessage>(this);
+        }
     }
 }

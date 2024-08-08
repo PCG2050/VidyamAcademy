@@ -50,6 +50,23 @@ namespace VidyamAcademy.ViewModels
 
         public ICommand LoadVideosCommand { get; }
 
+        public bool IsPayNowButtonEnabled => SelectedSubject.IsPayNowButtonEnabled;
+
+        public ICommand PayNowCommand => new Command(async () =>
+        {
+            await Application.Current.MainPage.Navigation.PushModalAsync(new SubjectPaymentPage(SelectedSubject, _apiService));
+        });
+
+        public async Task RefreshSubjectStatusAsync()
+        {
+            var updatedSubject = await _apiService.GetUserSubjectDetailAsync(SelectedSubject.SubjectId);
+            if (updatedSubject != null)
+            {
+                SelectedSubject.PaymentStatus = updatedSubject.PaymentStatus;
+                OnPropertyChanged(nameof(IsPayNowButtonEnabled));
+            }
+        }
+
         public void SearchVideos(string searchText)
         {
             if (string.IsNullOrWhiteSpace(searchText))
@@ -63,12 +80,6 @@ namespace VidyamAcademy.ViewModels
             }
             OnPropertyChanged(nameof(Videos));
         }
-
-        public ICommand PayNowCommand => new Command(async () =>
-        {
-            await Application.Current.MainPage.Navigation.PushModalAsync(new SubjectPaymentPage(SelectedSubject, _apiService));
-        });
-
-        public bool IsPayNowButtonEnabled => SelectedSubject.IsPayNowButtonEnabled;
     }
+
 }

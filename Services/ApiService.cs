@@ -313,7 +313,7 @@ namespace VidyamAcademy.Services
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
 
            
-                HttpResponseMessage response = await client.PutAsync($"{ApiUrls.BaseUrl}/{ApiUrls.UpdateProfile}", content);
+                HttpResponseMessage response = await client.PutAsync($"{_baseUrl}{ApiUrls.UpdateProfile}", content);
 
                 
                 if (!response.IsSuccessStatusCode)
@@ -326,7 +326,7 @@ namespace VidyamAcademy.Services
         public async Task<UserProfileDTO> GetUserProfileAsync(string authToken)
         {
             _httpClient.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", authToken);
-            var response = await _httpClient.GetAsync($"{_baseUrl}/{ApiUrls.UserProfile}");
+            var response = await _httpClient.GetAsync($"{_baseUrl}{ApiUrls.UserProfile}");
 
             response.EnsureSuccessStatusCode();
 
@@ -476,6 +476,35 @@ namespace VidyamAcademy.Services
             }
         }
 
+        public async Task<Subject> GetUserSubjectDetailAsync(int subjectId)
+        {
+            try
+            {
+                await AddAuthHeaderAsync();
+                var url = $"{_baseUrl}SubscriptionCourse/subscriptionUserSubject-info?subjectId={subjectId}";
+                var response = await _httpClient.GetAsync(url);
+
+                if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                   
+                    return null;
+                }
+
+                response.EnsureSuccessStatusCode();
+
+                var responseBody = await response.Content.ReadAsStringAsync();
+                var subjectResponse = JsonConvert.DeserializeObject<SubscriptionUserSubjectInfoResponse>(responseBody);
+
+                // Return the first subject from the list, or null if the list is empty
+                return subjectResponse?.UserSubjectInfo?.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error fetching subject details: {ex.Message}");
+                throw ex;
+            }
+        }
+
 
 
 
@@ -494,7 +523,12 @@ namespace VidyamAcademy.Services
             [JsonProperty("videoInfo")]
             public List<Video> VideoInfo { get; set; }
         }
-
+      
+        public class SubscriptionUserSubjectInfoResponse
+        {
+            [JsonProperty("userSubjectInfo")]
+            public List<Subject> UserSubjectInfo { get; set; }
+        }
 
     }
 }

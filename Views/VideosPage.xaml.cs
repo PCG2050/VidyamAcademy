@@ -23,16 +23,18 @@ namespace VidyamAcademy.Views
 
             var viewModel = new VideosPageViewModel(apiService, selectedSubject);
             BindingContext = viewModel;
+      
         }
 
-        protected override void OnAppearing()
+        protected override async void OnAppearing()
         {
             base.OnAppearing();
             if (BindingContext is VideosPageViewModel viewModel)
             {
+                await viewModel.RefreshSubjectStatusAsync();
                 viewModel.LoadVideosCommand.Execute(null);
             }
-        }
+        }     
 
         protected override void OnDisappearing()
         {

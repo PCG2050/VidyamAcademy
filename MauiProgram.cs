@@ -35,6 +35,7 @@ namespace VidyamAcademy
             builder.Services.AddSingleton<LoginPageViewModel>();
             builder.Services.AddSingleton<DashboardPageViewModel>();
             builder.Services.AddSingleton<LoadingPageViewModel>();
+            builder.Services.AddTransient<SubjectsPageViewModel>();
             builder.Services.AddTransient<VideosPageViewModel>();
             builder.Services.AddTransient<AppShellViewModel>();
 
@@ -43,7 +44,7 @@ namespace VidyamAcademy
             {
                 var httpClient = new HttpClient();
                 var baseUrl = "https://debugvidyam.azurewebsites.net/api/";
-                var blobStorageConnectionString = "YourBlobStorageConnectionString";
+                var blobStorageConnectionString = "DefaultEndpointsProtocol=https;AccountName=vidyamblob;AccountKey=63229QeKJbgOHpQyV6Mf4m+kCURgq+SRK/ppz4MI6b5vNJcTW1xGdwPZm5Tk+3Y/F4cJZGHIgRiM+AStmcCQ6g==;EndpointSuffix=core.windows.net";
 
                 return new ApiService(httpClient, baseUrl, blobStorageConnectionString);
             });

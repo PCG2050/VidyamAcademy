@@ -62,14 +62,16 @@
                                          BackgroundColor="White"                                         
                                          Opacity="0.5"
                                          Grid.Row="1"
-                                         Padding="10,10,0,0">
+                                         Padding="15,10,0,0">
                                 <Label Text="{Binding Name}"  
                                        TextColor="Black"
-                                       HorizontalOptions="Start" />
+                                       HorizontalOptions="Start"
+                                       FontSize="Large"/>
                                 <Label Text="{Binding Amount, StringFormat='₹{0:0.00}'}"  
                                        TextColor="Black"
                                        HorizontalOptions="Start"
-                                       FontAttributes="Bold"/>
+                                       FontAttributes="Bold"
+                                       FontSize= "Medium"/>
                             </StackLayout>
                         </Grid>
                     </DataTemplate>

@@ -28,9 +28,16 @@ namespace VidyamAcademy.Views
             viewModel.SubjectSelectedCommand.Execute(selectedSubject);
 
             // Reset the selected item
-            ((ListView)sender).SelectedItem = null;
-
-           
+            ((ListView)sender).SelectedItem = null;           
+        }
+        protected override void OnDisappearing()
+        {
+            base.OnDisappearing();
+            //Deregister the messenger 
+            if(BindingContext is SubjectsPageViewModel viewModel)
+            {
+                WeakReferenceMessenger.Default.Unregister<PaymnetSuccessfulMessage>(this);
+            }
         }
     }
 }

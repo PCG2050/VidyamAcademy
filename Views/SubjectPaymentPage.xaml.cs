@@ -101,7 +101,8 @@ namespace VidyamAcademy.Views
                 await Navigation.PopModalAsync();
                 if (success)
                 {
-                    //var apiservice = DependencyService.Get<ApiService>();
+
+                    WeakReferenceMessenger.Default.Send(new PaymnetSuccessfulMessage(_subject));
                     await Application.Current.MainPage.Navigation.PushAsync(new VideosPage(_apiService, _subject));
                 }
                 else
