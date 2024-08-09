@@ -1,6 +1,7 @@
 using CommunityToolkit.Maui.Views;
 using Microsoft.Maui.Controls;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using VidyamAcademy.Models;
@@ -59,6 +60,13 @@ namespace VidyamAcademy.Views
                     mediaElement.IsVisible = true;
                     mediaElement.Source = new Uri(video.EffectiveUrl);
                     mediaElement.Play();
+                    //Updating the video title
+                    if (BindingContext is VideosPageViewModel viewModel)
+                    {
+                        viewModel.CurrentlyPlayingTitle = video.Title;
+                        viewModel.IsMediaElementVisible = true;
+                    }
+
                 }
                 else
                 {

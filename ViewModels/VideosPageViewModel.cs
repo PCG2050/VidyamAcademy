@@ -15,6 +15,13 @@ namespace VidyamAcademy.ViewModels
         private string title;
 
         [ObservableProperty]
+        private string currentlyPlayingTitle;
+
+        [ObservableProperty]
+        private bool isMediaElementVisible;
+
+
+        [ObservableProperty]
         private ObservableCollection<Video> videos;
 
         private ObservableCollection<Video> _allVideos;
@@ -31,6 +38,9 @@ namespace VidyamAcademy.ViewModels
             _allVideos = new ObservableCollection<Video>(selectedSubject.Videos ?? new List<Video>());
             Videos = new ObservableCollection<Video>(_allVideos);
             LoadVideosCommand = new AsyncRelayCommand(LoadVideosAsync);
+
+            CurrentlyPlayingTitle = String.Empty;
+            isMediaElementVisible = false; 
         }
 
         private async Task LoadVideosAsync()
